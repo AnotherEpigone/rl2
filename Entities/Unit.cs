@@ -49,7 +49,7 @@ namespace Roguelike2.Entities
 
         private string DebuggerDisplay => $"{nameof(Unit)}: {Name}";
 
-        public UnitMovementResult TryMove(Point target, int movementCost)
+        public UnitMovementResult TryMove(Point target)
         {
             if (!CurrentMap.WalkabilityView[target])
             {

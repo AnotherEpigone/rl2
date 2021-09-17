@@ -19,6 +19,8 @@ namespace Roguelike2
         private readonly ILogger _logger;
         private readonly ISaveManager _saveManager;
 
+        private Rl2Game _game;
+
         public GameManager(
             IUiManager uiManager,
             IEntityFactory entityFactory,
@@ -47,7 +49,7 @@ namespace Roguelike2
             var rng = new StandardGenerator();
             var tilesetFont = Game.Instance.Fonts[_uiManager.TileFontName];
             var defaultFont = Game.Instance.DefaultFont;
-            var game = new Rl2Game();
+            var game = new Rl2Game(gameState.Player);
             var map = gameState.Map;
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
@@ -74,6 +76,7 @@ namespace Roguelike2
             var save = new GameState()
             {
                 Map = mainConsole.Map,
+                Player = _game.Player,
             };
 
             _saveManager.Write(save);
@@ -104,15 +107,15 @@ namespace Roguelike2
                 map.SetTerrain(new Terrain(position, template.Glyph, template.Name, template.Walkable, template.Transparent));
             }
 
-            var game = new Rl2Game();
-
-            var mapManager = new WorldMapManager(game, map);
-
             var playerPosition = map.WalkabilityView.RandomPosition(true, rng);
             var player = new Player(playerPosition);
             map.AddEntity(player);
 
-            Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, game);
+            _game = new Rl2Game(player);
+
+            var mapManager = new WorldMapManager(_game, map);
+
+            Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, _game);
             Game.Instance.DestroyDefaultStartingConsole();
             Game.Instance.Screen.IsFocused = true;
         }

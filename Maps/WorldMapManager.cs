@@ -16,6 +16,7 @@ namespace Roguelike2.Maps
     {
         private readonly WorldMap _map;
         private readonly AStar _aStar;
+        private readonly Rl2Game _game;
 
         private Unit _selectedUnit;
         private Point _selectedPoint;
@@ -34,6 +35,9 @@ namespace Roguelike2.Maps
                     _map.Height,
                     p => (double)GetMovementCost(p) + 1d),
                     1d);
+
+            _game = game;
+            _game.Player.Moved += Player_Moved;
         }
 
         public event EventHandler SelectionChanged;
@@ -73,31 +77,31 @@ namespace Roguelike2.Maps
         {
             if (keyboard.IsKeyPressed(Keys.C))
             {
-                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(SelectedPoint);
+                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_game.Player.Position);
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Down))
             {
-                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.ChangePosition(Direction.Down);
+                _game.Player.TryMove(_game.Player.Position + Direction.Down);
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Up))
             {
-                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.ChangePosition(Direction.Up);
+                _game.Player.TryMove(_game.Player.Position + Direction.Up);
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Right))
             {
-                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.ChangePosition(Direction.Right);
+                _game.Player.TryMove(_game.Player.Position + Direction.Right);
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Left))
             {
-                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.ChangePosition(Direction.Left);
+                _game.Player.TryMove(_game.Player.Position + Direction.Left);
                 return true;
             }
 
@@ -136,8 +140,7 @@ namespace Roguelike2.Maps
 
             foreach (var step in path.Steps)
             {
-                var movementCost = GetMovementCost(step);
-                var result = SelectedUnit.TryMove(step, movementCost);
+                var result = SelectedUnit.TryMove(step);
                 switch (result)
                 {
                     case UnitMovementResult.NoMovement:
@@ -162,6 +165,11 @@ namespace Roguelike2.Maps
 
         private void Map_LeftMouseClick(object sender, MouseScreenObjectState e)
         {
+        }
+
+        private void Player_Moved(object sender, GoRogue.GameFramework.GameObjectPropertyChanged<Point> e)
+        {
+            _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_game.Player.Position);
         }
     }
 }
