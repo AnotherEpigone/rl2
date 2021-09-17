@@ -23,21 +23,5 @@ namespace Roguelike2.Entities
         }
 
         public static Dictionary<string, UnitTemplate> ById => _byId.Value;
-
-        public static UnitTemplate CaveTroll => new UnitTemplate(
-            "UNIT_CAVETROLL",
-            "Cave troll",
-            WorldGlyphAtlas.Unit_CaveTroll,
-            2,
-            100,
-            10);
-
-        public static UnitTemplate Spearman => new UnitTemplate(
-            "UNIT_SPEARMAN",
-            "Spearman",
-            WorldGlyphAtlas.Unit_Spearman,
-            2,
-            100,
-            4);
     }
 }

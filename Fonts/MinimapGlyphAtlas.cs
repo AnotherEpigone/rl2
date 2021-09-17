@@ -6,8 +6,7 @@
         public const int Solid = 1;
 
         // Terrain
-        public const int Terrain_Grassland = 2;
-        public const int Terrain_MapEdge = 3;
-        public const int Terrain_Ocean = 39;
+        public const int Ground_Dirt = 5;
+        public const int Wall_Brick = 6;
     }
 }

@@ -100,7 +100,7 @@ namespace Roguelike2
 
             foreach (var position in map.Positions())
             {
-                var template = generatedMap[position] ? TerrainAtlas.Grassland : TerrainAtlas.Ocean;
+                var template = generatedMap[position] ? TerrainAtlas.DirtFloor : TerrainAtlas.BrickWall;
                 map.SetTerrain(new Terrain(position, template.Glyph, template.Name, template.Walkable, template.Transparent));
             }
 

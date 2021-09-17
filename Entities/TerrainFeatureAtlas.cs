@@ -23,19 +23,5 @@ namespace Roguelike2.Entities
         }
 
         public static Dictionary<string, TerrainFeatureTemplate> ById => _byId.Value;
-
-        public static TerrainFeatureTemplate Forest => new TerrainFeatureTemplate(
-            "FEATURE_FOREST",
-            WorldGlyphAtlas.Feature_Forest,
-            "Forest",
-            true,
-            1);
-
-        public static TerrainFeatureTemplate Hill => new TerrainFeatureTemplate(
-            "FEATURE_HILL",
-            WorldGlyphAtlas.Feature_Hill,
-            "Hill",
-            true,
-            1);
     }
 }

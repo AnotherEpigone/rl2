@@ -131,57 +131,6 @@ namespace Roguelike2.Maps
 
         private void AddTurnCountEntities(int turns, Point point)
         {
-            var alpha = turns > 1
-                        ? 150
-                        : 210;
-            if (turns < 10)
-            {
-                _map.AddEntity(new NovaEntity(
-                    point,
-                    new Color(Color.White, alpha),
-                    WorldGlyphAtlas.MovementPreview1 + turns - 1,
-                    "step highlight - turn count",
-                    true,
-                    true,
-                    (int)MapEntityLayer.GUI,
-                    Guid.NewGuid()));
-            }
-            else if (turns > 99)
-            {
-                _map.AddEntity(new NovaEntity(
-                    point,
-                    new Color(Color.White, alpha),
-                    WorldGlyphAtlas.MovementPreview99plus,
-                    "step highlight - turn count",
-                    true,
-                    true,
-                    (int)MapEntityLayer.GUI,
-                    Guid.NewGuid()));
-            }
-            else
-            {
-                // tens digit.
-                _map.AddEntity(new NovaEntity(
-                    point,
-                    new Color(Color.White, alpha),
-                    WorldGlyphAtlas.MovementPreview10 + (turns / 10) - 1,
-                    "step highlight - turn count",
-                    true,
-                    true,
-                    (int)MapEntityLayer.GUI,
-                    Guid.NewGuid()));
-
-                // ones digit.
-                _map.AddEntity(new NovaEntity(
-                    point,
-                    new Color(Color.White, alpha),
-                    WorldGlyphAtlas.MovementPreview0 + (turns % 10),
-                    "step highlight - turn count",
-                    true,
-                    true,
-                    (int)MapEntityLayer.GUI,
-                    Guid.NewGuid()));
-            }
         }
 
         private int GetMovementCost(Point target)

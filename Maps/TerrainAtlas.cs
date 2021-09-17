@@ -24,24 +24,17 @@ namespace Roguelike2.Maps
 
         public static Dictionary<string, TerrainTemplate> ById => _byId.Value;
 
-        public static TerrainTemplate MapEdge => new TerrainTemplate(
-            "TERRAIN_MAPEDGE",
-            "Map edge",
-            WorldGlyphAtlas.Terrain_MapEdge,
-            false,
-            false);
-
-        public static TerrainTemplate Grassland => new TerrainTemplate(
-            "TERRAIN_GRASSLAND",
-            "Grassland",
-            WorldGlyphAtlas.Terrain_Grassland,
+        public static TerrainTemplate DirtFloor => new TerrainTemplate(
+            "TERRAIN_DIRTFLOOR",
+            "Dirt floor",
+            WorldGlyphAtlas.Ground_Dirt,
             true,
             true);
 
-        public static TerrainTemplate Ocean => new TerrainTemplate(
-            "TERRAIN_OCEAN",
-            "Ocean",
-            WorldGlyphAtlas.Terrain_Ocean,
+        public static TerrainTemplate BrickWall => new TerrainTemplate(
+            "TERRAIN_BRICKWALL",
+            "Brick wall",
+            WorldGlyphAtlas.Wall_Brick,
             false,
             false);
     }

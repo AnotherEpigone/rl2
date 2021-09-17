@@ -21,8 +21,6 @@ namespace Roguelike2.Entities
     [JsonConverter(typeof(UnitJsonConverter))]
     public class Unit : NovaEntity
     {
-        private readonly NovaEntity _flag;
-        private readonly NovaEntity _selectionOverlay;
         private float _remainingHealth;
 
         public Unit(
@@ -51,18 +49,7 @@ namespace Roguelike2.Entities
             RemainingHealth = maxHealth;
             Selected = false;
 
-            _flag = new NovaEntity(position, WorldGlyphAtlas.UnitBanner, $"Unit banner {name}", true, true, (int)MapEntityLayer.EFFECTS, Guid.NewGuid());
-            _flag.Appearance.Foreground = empireColor;
-
-            _selectionOverlay = new NovaEntity(position, WorldGlyphAtlas.SelectionOverlay, $"Selection overlay {name}", true, true, (int)MapEntityLayer.EFFECTS, Guid.NewGuid())
-            {
-                IsVisible = false
-            };
-
             LastSelected = DateTime.UtcNow;
-
-            AddedToMap += Unit_AddedToMap;
-            RemovedFromMap += Unit_RemovedFromMap;
         }
 
         public event EventHandler StatsChanged;
@@ -90,16 +77,6 @@ namespace Roguelike2.Entities
 
         private string DebuggerDisplay => $"{nameof(Unit)}: {Name}";
 
-        public void ToggleSelected()
-        {
-            Selected = !Selected;
-            _selectionOverlay.IsVisible = Selected;
-            if (Selected)
-            {
-                LastSelected = DateTime.UtcNow;
-            }
-        }
-
         public UnitMovementResult TryMove(Point target, int movementCost)
         {
             if (RemainingMovement < 0.01)
@@ -125,36 +102,14 @@ namespace Roguelike2.Entities
             StatsChanged?.Invoke(this, EventArgs.Empty);
 
             Position = target;
-
-            _flag.Position = Position;
-            _selectionOverlay.Position = Position;
             return UnitMovementResult.Moved;
         }
 
         public void MagicMove(Point target)
         {
             Position = target;
-
-            _flag.Position = Position;
-            _selectionOverlay.Position = Position;
         }
 
         public bool HasMovement() => RemainingMovement > 0.01;
-
-        private void HandleAddedToMap()
-        {
-            CurrentMap?.AddEntity(_flag);
-            CurrentMap?.AddEntity(_selectionOverlay);
-        }
-
-        private void HandleRemovedFromMap()
-        {
-            _flag.CurrentMap?.RemoveEntity(_flag);
-            _selectionOverlay.CurrentMap?.RemoveEntity(_selectionOverlay);
-        }
-
-        private void Unit_RemovedFromMap(object sender, GameObjectCurrentMapChanged e) => HandleRemovedFromMap();
-
-        private void Unit_AddedToMap(object sender, GameObjectCurrentMapChanged e) => HandleAddedToMap();
     }
 }

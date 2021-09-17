@@ -40,23 +40,10 @@ namespace Roguelike2.Maps.Generation
                 viewportSize - map.DefaultRenderer.Surface.View.Size);
 
             var continentsMap = mapGenerator.Context.GetFirst<ISettableGridView<bool>>(((INovaGenerationStep)continentsStep).ComponentTag);
-            var forestsMap = mapGenerator.Context.GetFirst<ISettableGridView<bool>>(((INovaGenerationStep)forestStep).ComponentTag);
-            var hillMap = mapGenerator.Context.GetFirst<ISettableGridView<bool>>(((INovaGenerationStep)hillStep).ComponentTag);
             foreach (var position in map.Positions())
             {
-                var template = continentsMap[position] ? TerrainAtlas.Grassland : TerrainAtlas.Ocean;
+                var template = continentsMap[position] ? TerrainAtlas.DirtFloor : TerrainAtlas.BrickWall;
                 map.SetTerrain(new Terrain(position, template.Glyph, template.Name, template.Walkable, template.Transparent));
-
-                if (forestsMap[position])
-                {
-                    var forest = entityFactory.CreateTerrainFeature(position, TerrainFeatureAtlas.Forest);
-                    map.AddEntity(forest);
-                }
-                else if (hillMap[position])
-                {
-                    var hill = entityFactory.CreateTerrainFeature(position, TerrainFeatureAtlas.Hill);
-                    map.AddEntity(hill);
-                }
             }
 
 
