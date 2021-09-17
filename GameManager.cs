@@ -108,6 +108,10 @@ namespace Roguelike2
 
             var mapManager = new WorldMapManager(game, map);
 
+            var playerPosition = map.WalkabilityView.RandomPosition(true, rng);
+            var player = new Player(playerPosition);
+            map.AddEntity(player);
+
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, game);
             Game.Instance.DestroyDefaultStartingConsole();
             Game.Instance.Screen.IsFocused = true;

@@ -22,12 +22,6 @@ namespace Roguelike2.Serialization.Entities
         [DataMember] string TemplateId;
         [DataMember] Guid UnitId;
         [DataMember] Guid EmpireId;
-        [DataMember] Color EmpireColor;
-        [DataMember] float Movement;
-        [DataMember] float RemainingMovement;
-        [DataMember] int MaxHealth;
-        [DataMember] float RemainingHealth;
-        [DataMember] int Strength;
 
         public static implicit operator UnitSerialized(Unit unit)
         {
@@ -37,12 +31,6 @@ namespace Roguelike2.Serialization.Entities
                 TemplateId = unit.TemplateId,
                 UnitId = unit.Id,
                 EmpireId = unit.EmpireId,
-                EmpireColor = unit.EmpireColor,
-                Movement = unit.Movement,
-                RemainingMovement = unit.RemainingMovement,
-                MaxHealth = unit.MaxHealth,
-                RemainingHealth = unit.RemainingHealth,
-                Strength = unit.Strength,
             };
         }
 
@@ -58,14 +46,8 @@ namespace Roguelike2.Serialization.Entities
                 (int)MapEntityLayer.ACTORS,
                 serialized.UnitId,
                 serialized.EmpireId,
-                serialized.EmpireColor,
-                serialized.TemplateId,
-                serialized.Movement,
-                serialized.MaxHealth,
-                serialized.Strength)
+                serialized.TemplateId)
             {
-                RemainingMovement = serialized.RemainingMovement,
-                RemainingHealth = serialized.RemainingHealth,
             };
         }
     }

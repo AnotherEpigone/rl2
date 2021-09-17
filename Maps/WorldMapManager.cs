@@ -69,18 +69,6 @@ namespace Roguelike2.Maps
             }
         }
 
-        public void OnNewTurn()
-        {
-        }
-
-        public void OnNewRound()
-        {
-            foreach (var unit in _map.Entities.Items.OfType<Unit>())
-            {
-                unit.RemainingMovement = unit.Movement;
-            }
-        }
-
         public bool HandleKeyboard(Keyboard keyboard)
         {
             if (keyboard.IsKeyPressed(Keys.C))
@@ -117,19 +105,6 @@ namespace Roguelike2.Maps
         }
 
         public void Update()
-        {
-        }
-
-        private void ClearGui()
-        {
-            var overlayEntities = _map.Entities.GetLayer((int)MapEntityLayer.GUI).Items;
-            foreach (var entity in overlayEntities)
-            {
-                _map.RemoveEntity(entity);
-            }
-        }
-
-        private void AddTurnCountEntities(int turns, Point point)
         {
         }
 

@@ -17,11 +17,7 @@ namespace Roguelike2.Entities
                 (int)MapEntityLayer.ACTORS,
                 Guid.NewGuid(),
                 empireId,
-                empireColor,
-                template.Id,
-                template.Movement,
-                template.MaxHealth,
-                template.Strength);
+                template.Id);
 
             return unit;
         }

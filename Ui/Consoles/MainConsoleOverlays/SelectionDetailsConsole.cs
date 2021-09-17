@@ -39,10 +39,6 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             {
                 Cursor.Right(2).Print("Selected unit:\r\n", printTemplate, null);
                 Cursor.Right(2).Print($"{mapManager.SelectedUnit.Name}\r\n", printTemplate, null);
-                Cursor.Right(2).Print($"Health: {mapManager.SelectedUnit.RemainingHealth}/{mapManager.SelectedUnit.MaxHealth}", printTemplate, null);
-                Cursor.Right(2).Print($"Movement: {mapManager.SelectedUnit.RemainingMovement}/{mapManager.SelectedUnit.Movement}\r\n", printTemplate, null);
-                Cursor.Right(2).Print($"Strength: {mapManager.SelectedUnit.Strength}", printTemplate, null);
-                Cursor.Right(2).Print($"Effective: {mapManager.SelectedUnit.EffectiveStrength}\r\n", printTemplate, null);
             }
             else if (mapManager.SelectedPoint != Point.None)
             {
@@ -50,10 +46,6 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
                 if (unit != null)
                 {
                     Cursor.Right(2).Print($"{unit.Name}\r\n", printTemplate, null);
-                    Cursor.Right(2).Print($"Health: {unit.RemainingHealth}/{unit.MaxHealth}", printTemplate, null);
-                    Cursor.Right(2).Print($"Movement: {unit.RemainingMovement}/{unit.Movement}\r\n", printTemplate, null);
-                    Cursor.Right(2).Print($"Strength: {unit.Strength}", printTemplate, null);
-                    Cursor.Right(2).Print($"Effective: {unit.EffectiveStrength}\r\n", printTemplate, null);
                 }
             }
         }
