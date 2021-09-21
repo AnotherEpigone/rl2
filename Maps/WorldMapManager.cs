@@ -1,6 +1,7 @@
 ﻿using GoRogue.Pathing;
 using Roguelike2.Entities;
 using Roguelike2.Fonts;
+using Roguelike2.GameMechanics;
 using SadConsole.Input;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
@@ -16,12 +17,18 @@ namespace Roguelike2.Maps
     {
         private readonly WorldMap _map;
         private readonly AStar _aStar;
+        private readonly IPlayerController _playerController;
         private readonly Rl2Game _game;
 
         private Unit _selectedUnit;
         private Point _selectedPoint;
 
         public WorldMapManager(Rl2Game game, WorldMap map)
+            : this(new PlayerController(), game, map)
+        {
+        }
+
+        public WorldMapManager(IPlayerController playerController, Rl2Game game, WorldMap map)
         {
             _map = map;
             _map.RightMouseButtonDown += Map_RightMouseButtonDown;
@@ -35,7 +42,7 @@ namespace Roguelike2.Maps
                     _map.Height,
                     p => (double)GetMovementCost(p) + 1d),
                     1d);
-
+            _playerController = playerController;
             _game = game;
             _game.Player.Moved += Player_Moved;
         }
@@ -81,27 +88,8 @@ namespace Roguelike2.Maps
                 return true;
             }
 
-            if (keyboard.IsKeyPressed(Keys.Down))
+            if (_playerController.HandleKeyboard(_game, keyboard))
             {
-                _game.Player.TryMove(_game.Player.Position + Direction.Down);
-                return true;
-            }
-
-            if (keyboard.IsKeyPressed(Keys.Up))
-            {
-                _game.Player.TryMove(_game.Player.Position + Direction.Up);
-                return true;
-            }
-
-            if (keyboard.IsKeyPressed(Keys.Right))
-            {
-                _game.Player.TryMove(_game.Player.Position + Direction.Right);
-                return true;
-            }
-
-            if (keyboard.IsKeyPressed(Keys.Left))
-            {
-                _game.Player.TryMove(_game.Player.Position + Direction.Left);
                 return true;
             }
 
