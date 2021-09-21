@@ -3,11 +3,11 @@ using SadRogue.Primitives;
 
 namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 {
-    public class EmpireStatusConsole : Console
+    public class WorldStatusConsole : Console
     {
         private readonly Rl2Game _game;
 
-        public EmpireStatusConsole(int width, int height, Rl2Game game)
+        public WorldStatusConsole(int width, int height, Rl2Game game)
             : base(width, height)
         {
             _game = game;
@@ -30,9 +30,8 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             Cursor.Position = new Point(0, 1);
 
             var printTemplate = new ColoredGlyph(ColorHelper.Text, ColorHelper.ControlBack);
-            Cursor.Right(2).Print($"????\r\n", printTemplate, null);
-            Cursor.Right(2).Print($"??????\r\n", printTemplate, null);
-            Cursor.Right(2).Print($"Time 0 Resource 0", printTemplate, null);
+            Cursor.Right(2).Print($"Depth -4 (The Midden)\r\n", printTemplate, null);
+            Cursor.Right(2).Print($"Time 0", printTemplate, null); // TODO time from TimeManager
         }
     }
 }

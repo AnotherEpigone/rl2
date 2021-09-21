@@ -17,10 +17,6 @@ namespace Roguelike2.Ui.Consoles
         private readonly TransientMessageConsole _transientMessageConsole;
         private readonly AlertMessageConsole _alertMessageConsole;
 
-        private bool _firstUpdate;
-        private DateTime _lastEndTurnAttempt;
-        private DateTime _lastReadyToEndTurnCheck;
-
         public MainConsole(
             IGameManager gameManager,
             IUiManager uiManager,
@@ -39,11 +35,6 @@ namespace Roguelike2.Ui.Consoles
             UseMouse = false;
             UseKeyboard = true;
 
-            _lastEndTurnAttempt = DateTime.MinValue;
-            _lastReadyToEndTurnCheck = DateTime.MinValue;
-
-            _firstUpdate = true;
-
             var minimap = new MinimapScreenSurface(
                 Map,
                 new MinimapTerrainCellSurface(Map, 320, 240),
@@ -53,19 +44,14 @@ namespace Roguelike2.Ui.Consoles
                 minimapGlyphPosition.X * SadConsole.Game.Instance.DefaultFont.GlyphWidth,
                 minimapGlyphPosition.Y * SadConsole.Game.Instance.DefaultFont.GlyphHeight);
 
-            var empireStatusConsole = new EmpireStatusConsole(RightPaneWidth, 5, game)
+            var empireStatusConsole = new WorldStatusConsole(RightPaneWidth, 4, game)
             {
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 15),
             };
 
-            var selectionDetailsConsole = new SelectionDetailsConsole(RightPaneWidth, 15, _mapManager, Map, Game)
+            var logConsole = new LogConsole(RightPaneWidth, uiManager.ViewPortHeight - 19)
             {
-                Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 20),
-            };
-
-            var logConsole = new LogConsole(RightPaneWidth, uiManager.ViewPortHeight - 36)
-            {
-                Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 35),
+                Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 19),
             };
 
             _transientMessageConsole = new TransientMessageConsole(60)
@@ -78,13 +64,9 @@ namespace Roguelike2.Ui.Consoles
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth - 60, uiManager.ViewPortHeight - 2),
             };
 
-            _mapManager.SelectionChanged += (_, __) => selectionDetailsConsole.Update(_mapManager, Map, Game);
-            _mapManager.SelectionStatsChanged += (_, __) => selectionDetailsConsole.Update(_mapManager, Map, Game);
-
             Children.Add(Map);
             Children.Add(minimap);
             Children.Add(empireStatusConsole);
-            Children.Add(selectionDetailsConsole);
             Children.Add(logConsole);
             Children.Add(_transientMessageConsole);
             Children.Add(_alertMessageConsole);

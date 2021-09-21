@@ -18,8 +18,6 @@ namespace Roguelike2.Entities
     [JsonConverter(typeof(UnitJsonConverter))]
     public class Unit : NovaEntity
     {
-        private float _remainingHealth;
-
         public Unit(
                 Point position,
                 int glyph,
