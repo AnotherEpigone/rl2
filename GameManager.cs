@@ -100,6 +100,7 @@ namespace Roguelike2
             var map = new WorldMap(40, 40, tilesetFont);
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
+            map.AllComponents.Add(new PlayerFieldOfViewHandler());
 
             foreach (var position in map.Positions())
             {
@@ -120,6 +121,7 @@ namespace Roguelike2
             Game.Instance.Screen.IsFocused = true;
 
             _logger.Gameplay("You wake up in a trash heap.");
+            player.CalculateFov();
         }
 
         private Point GetViewportSizeInTiles(IFont tilesetFont, IFont defaultFont)

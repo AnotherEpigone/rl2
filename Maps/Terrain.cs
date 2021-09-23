@@ -10,7 +10,6 @@ namespace Roguelike2.Maps
     [JsonConverter(typeof(TerrainJsonConverter))]
     public class Terrain : RogueLikeCell
     {
-
         public Terrain(
             Point position,
             int glyph,
@@ -25,6 +24,7 @@ namespace Roguelike2.Maps
 
         public int Glyph { get; }
         public string Name { get; }
+        public bool Explored { get; set; }
 
         private string DebuggerDisplay
         {

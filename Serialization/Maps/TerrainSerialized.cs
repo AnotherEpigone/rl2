@@ -21,6 +21,7 @@ namespace Roguelike2.Serialization.Maps
         [DataMember] public string Name;
         [DataMember] public bool Walkable;
         [DataMember] public bool Transparent;
+        [DataMember] public bool Explored;
 
         public static implicit operator TerrainSerialized(Terrain terrain)
         {
@@ -31,6 +32,7 @@ namespace Roguelike2.Serialization.Maps
                 Name = terrain.Name,
                 Walkable = terrain.IsWalkable,
                 Transparent = terrain.IsTransparent,
+                Explored = terrain.Explored,
             };
         }
 
@@ -41,7 +43,10 @@ namespace Roguelike2.Serialization.Maps
                 serialized.Glyph,
                 serialized.Name,
                 serialized.Walkable,
-                serialized.Transparent);
+                serialized.Transparent)
+            {
+                Explored = serialized.Explored,
+            };
         }
     }
 }

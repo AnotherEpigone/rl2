@@ -20,6 +20,19 @@ namespace Roguelike2.Entities
                   Guid.NewGuid(), // TODO Faction ID
                   "Player")
         {
+            Moved += Player_Moved;
+        }
+
+        public int FovRadius => 8;
+
+        public void CalculateFov()
+        {
+            CurrentMap?.PlayerFOV.Calculate(Position, FovRadius, CurrentMap.DistanceMeasurement);
+        }
+
+        private void Player_Moved(object sender, GoRogue.GameFramework.GameObjectPropertyChanged<Point> e)
+        {
+            CalculateFov();
         }
     }
 }
