@@ -129,17 +129,22 @@ namespace Roguelike2
             player.CalculateFov();
         }
 
+        private Point GetMapViewport()
+        {
+            return new Point(
+                _uiManager.ViewPortWidth - MainConsole.LeftPaneWidth - MainConsole.RightPaneWidth,
+                _uiManager.ViewPortHeight);
+        }
+
         private Point GetViewportSizeInTiles(IFont tilesetFont, IFont defaultFont)
         {
+            var viewportSize = GetMapViewport();
             var tileSizeXFactor = (double)tilesetFont.GlyphWidth / defaultFont.GlyphWidth;
             var tileSizeYFactor = (double)tilesetFont.GlyphHeight / defaultFont.GlyphHeight;
-            var viewPortTileWidth = (int)(_uiManager.ViewPortWidth / tileSizeXFactor);
-            var viewPortTileHeight = (int)(_uiManager.ViewPortHeight / tileSizeYFactor);
+            var viewPortTileWidth = (int)(viewportSize.X / tileSizeXFactor);
+            var viewPortTileHeight = (int)(viewportSize.Y / tileSizeYFactor);
 
-            var rightPaneWidth = (int)(MainConsole.RightPaneWidth / tileSizeXFactor);
-            var mapWidth = viewPortTileWidth - rightPaneWidth;
-
-            return new Point(mapWidth, viewPortTileHeight);
+            return new Point(viewPortTileWidth, viewPortTileHeight);
         }
     }
 }

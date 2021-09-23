@@ -65,12 +65,17 @@ namespace Roguelike2.Ui.Consoles
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth - 60, uiManager.ViewPortHeight - 2),
             };
 
+            var leftPane = new MainConsoleLeftPane(LeftPaneWidth, uiManager.ViewPortHeight);
+
+            Map.Position = new Point(LeftPaneWidth * leftPane.Font.GlyphWidth, 0);
+
             Children.Add(Map);
             Children.Add(minimap);
             Children.Add(empireStatusConsole);
             Children.Add(logConsole);
             Children.Add(_transientMessageConsole);
             Children.Add(_alertMessageConsole);
+            Children.Add(leftPane);
 
             if (debug)
             {
@@ -79,6 +84,8 @@ namespace Roguelike2.Ui.Consoles
         }
 
         public static int RightPaneWidth => 40;
+
+        public static int LeftPaneWidth => 40;
 
         public WorldMap Map { get; }
 
