@@ -15,5 +15,6 @@ namespace Roguelike2.Logging
         void UnregisterEventListener(LogType type, Action<string> listener);
         void Log(string message, LogType logType);
         void Debug(string message);
+        void Gameplay(string message);
     }
 }

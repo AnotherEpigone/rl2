@@ -5,9 +5,9 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 {
     public class WorldStatusConsole : Console
     {
-        private readonly Rl2Game _game;
+        private readonly DungeonMaster _game;
 
-        public WorldStatusConsole(int width, int height, Rl2Game game)
+        public WorldStatusConsole(int width, int height, DungeonMaster game)
             : base(width, height)
         {
             _game = game;

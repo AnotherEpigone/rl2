@@ -19,7 +19,7 @@ namespace Roguelike2
         private readonly ILogger _logger;
         private readonly ISaveManager _saveManager;
 
-        private Rl2Game _game;
+        private DungeonMaster _game;
 
         public GameManager(
             IUiManager uiManager,
@@ -49,7 +49,7 @@ namespace Roguelike2
             var rng = new StandardGenerator();
             var tilesetFont = Game.Instance.Fonts[_uiManager.TileFontName];
             var defaultFont = Game.Instance.DefaultFont;
-            var game = new Rl2Game(gameState.Player);
+            var game = new DungeonMaster(gameState.Player, _logger);
             var map = gameState.Map;
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
@@ -111,13 +111,15 @@ namespace Roguelike2
             var player = new Player(playerPosition);
             map.AddEntity(player);
 
-            _game = new Rl2Game(player);
+            _game = new DungeonMaster(player, _logger);
 
             var mapManager = new WorldMapManager(_game, map);
 
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, _game);
             Game.Instance.DestroyDefaultStartingConsole();
             Game.Instance.Screen.IsFocused = true;
+
+            _logger.Gameplay("You wake up in a trash heap.");
         }
 
         private Point GetViewportSizeInTiles(IFont tilesetFont, IFont defaultFont)

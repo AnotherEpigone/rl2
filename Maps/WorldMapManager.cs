@@ -18,17 +18,17 @@ namespace Roguelike2.Maps
         private readonly WorldMap _map;
         private readonly AStar _aStar;
         private readonly IPlayerController _playerController;
-        private readonly Rl2Game _game;
+        private readonly DungeonMaster _game;
 
         private Unit _selectedUnit;
         private Point _selectedPoint;
 
-        public WorldMapManager(Rl2Game game, WorldMap map)
+        public WorldMapManager(DungeonMaster game, WorldMap map)
             : this(new PlayerController(), game, map)
         {
         }
 
-        public WorldMapManager(IPlayerController playerController, Rl2Game game, WorldMap map)
+        public WorldMapManager(IPlayerController playerController, DungeonMaster game, WorldMap map)
         {
             _map = map;
             _map.RightMouseButtonDown += Map_RightMouseButtonDown;

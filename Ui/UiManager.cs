@@ -25,7 +25,7 @@ namespace Roguelike2.Ui
         public string MiniMapFontPath { get; } = "Fonts\\minimap.font";
         public string MiniMapFontName { get; } = "Minimap";
 
-        public MainConsole CreateMapScreen(IGameManager gameManager, WorldMap map, WorldMapManager mapManager, Rl2Game game)
+        public MainConsole CreateMapScreen(IGameManager gameManager, WorldMap map, WorldMapManager mapManager, DungeonMaster game)
         {
             return new MainConsole(gameManager, this, map, mapManager, game, _appSettings.Debug);
         }

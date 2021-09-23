@@ -7,7 +7,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 {
     public class SelectionDetailsConsole : Console
     {
-        public SelectionDetailsConsole(int width, int height, WorldMapManager mapManager, WorldMap map, Rl2Game game)
+        public SelectionDetailsConsole(int width, int height, WorldMapManager mapManager, WorldMap map, DungeonMaster game)
             : base(width, height)
         {
             DefaultBackground = ColorHelper.ControlBack;
@@ -17,7 +17,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             Update(mapManager, map, game);
         }
 
-        public void Update(WorldMapManager mapManager, WorldMap map, Rl2Game game)
+        public void Update(WorldMapManager mapManager, WorldMap map, DungeonMaster game)
         {
             this.Clear();
             this.Fill(background: ColorHelper.ControlBack);

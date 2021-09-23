@@ -5,7 +5,7 @@ namespace Roguelike2.GameMechanics
 {
     public sealed class PlayerController : IPlayerController
     {
-        public bool HandleKeyboard(Rl2Game game, Keyboard keyboard)
+        public bool HandleKeyboard(DungeonMaster game, Keyboard keyboard)
         {
             if (keyboard.IsKeyPressed(Keys.Down) || keyboard.IsKeyPressed(Keys.NumPad2))
             {
@@ -58,7 +58,7 @@ namespace Roguelike2.GameMechanics
             return false;
         }
 
-        private void HandlePlayerMovement(Rl2Game game, Direction dir)
+        private void HandlePlayerMovement(DungeonMaster game, Direction dir)
         {
             // TODO handle bumps
             game.Player.TryMove(game.Player.Position + dir);

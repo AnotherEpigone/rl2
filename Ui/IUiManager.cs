@@ -22,7 +22,7 @@ namespace Roguelike2.Ui
             IGameManager gameManager,
             WorldMap map,
             WorldMapManager mapManager,
-            Rl2Game game);
+            DungeonMaster game);
 
         void ToggleFullScreen();
 

@@ -51,5 +51,7 @@ namespace Roguelike2.Logging
         }
 
         public void Debug(string message) => Log(message, LogType.Debug);
+
+        public void Gameplay(string message) => Log(message, LogType.Gameplay);
     }
 }

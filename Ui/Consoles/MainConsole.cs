@@ -22,7 +22,7 @@ namespace Roguelike2.Ui.Consoles
             IUiManager uiManager,
             WorldMap map,
             WorldMapManager mapManager,
-            Rl2Game game,
+            DungeonMaster game,
             bool debug)
         {
             _gameManager = gameManager;
@@ -53,6 +53,7 @@ namespace Roguelike2.Ui.Consoles
             {
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 19),
             };
+            Game.Logger.RegisterEventListener(Logging.LogType.Gameplay, m => logConsole.Add(m));
 
             _transientMessageConsole = new TransientMessageConsole(60)
             {
@@ -81,7 +82,7 @@ namespace Roguelike2.Ui.Consoles
 
         public WorldMap Map { get; }
 
-        public Rl2Game Game { get; }
+        public DungeonMaster Game { get; }
 
         private string DebuggerDisplay => string.Format($"{nameof(MainConsole)} ({Position.X}, {Position.Y})");
 
