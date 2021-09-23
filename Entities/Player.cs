@@ -1,10 +1,15 @@
-﻿using Roguelike2.Fonts;
+﻿using Newtonsoft.Json;
+using Roguelike2.Fonts;
 using Roguelike2.Maps;
+using Roguelike2.Serialization.Entities;
 using SadRogue.Primitives;
 using System;
+using System.Diagnostics;
 
 namespace Roguelike2.Entities
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    [JsonConverter(typeof(PlayerJsonConverter))]
     public class Player : Unit
     {
         public Player(
@@ -24,6 +29,8 @@ namespace Roguelike2.Entities
         }
 
         public int FovRadius => 8;
+
+        private string DebuggerDisplay => nameof(Player);
 
         public void CalculateFov()
         {

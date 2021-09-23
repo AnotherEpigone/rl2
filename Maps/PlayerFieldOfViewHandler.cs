@@ -33,7 +33,7 @@ namespace Roguelike2.Maps
             if (rlTerrain.Explored)
             {
                 rlTerrain.Appearance.IsVisible = true;
-                rlTerrain.Appearance.Foreground = new Color(200, 200, 200);
+                rlTerrain.Appearance.Foreground = new Color(150, 150, 150);
             }
             else
             {

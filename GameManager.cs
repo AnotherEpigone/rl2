@@ -53,12 +53,17 @@ namespace Roguelike2
             var map = gameState.Map;
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
+            map.AllComponents.Add(new PlayerFieldOfViewHandler());
+
+            map.AddEntity(gameState.Player);
 
             var mapManager = new WorldMapManager(game, map);
 
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, gameState.Map, mapManager, game);
             Game.Instance.DestroyDefaultStartingConsole();
             Game.Instance.Screen.IsFocused = true;
+
+            gameState.Player.CalculateFov();
         }
 
         public void LoadLatest()

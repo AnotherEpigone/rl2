@@ -13,7 +13,7 @@ namespace Roguelike2.Serialization.Maps
     {
         public override void WriteJson(JsonWriter writer, WorldMap value, JsonSerializer serializer) => serializer.Serialize(writer, (WorldMapSerialized)value);
 
-        public override WorldMap ReadJson(JsonReader reader, System.Type objectType, WorldMap existingValue,
+        public override WorldMap ReadJson(JsonReader reader, Type objectType, WorldMap existingValue,
                                         bool hasExistingValue, JsonSerializer serializer) => serializer.Deserialize<WorldMapSerialized>(reader);
     }
 
@@ -34,7 +34,7 @@ namespace Roguelike2.Serialization.Maps
                 Height = map.Height,
                 FontId = map.Font.Name,
                 Terrain = map.Terrain.ToEnumerable().Cast<Terrain>().ToArray(),
-                Units = map.Entities.Items.OfType<Unit>().ToArray(),
+                Units = map.Entities.Items.OfType<Unit>().Where(u => u is not Player).ToArray(),
             };
         }
 
