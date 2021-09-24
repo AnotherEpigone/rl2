@@ -65,7 +65,11 @@ namespace Roguelike2.Ui.Consoles
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth - 60, uiManager.ViewPortHeight - 2),
             };
 
-            var leftPane = new MainConsoleLeftPane(LeftPaneWidth, uiManager.ViewPortHeight);
+            var leftPane = new MainConsoleLeftPane(
+                LeftPaneWidth,
+                uiManager.ViewPortHeight,
+                uiManager,
+                gameManager);
 
             Map.Position = new Point(LeftPaneWidth * leftPane.Font.GlyphWidth, 0);
 
