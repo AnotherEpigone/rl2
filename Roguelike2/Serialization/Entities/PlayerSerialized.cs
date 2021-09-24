@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Roguelike2.Entities;
+using Roguelike2.GameMechanics.Items;
 using SadRogue.Primitives;
 using System;
 using System.Runtime.Serialization;
@@ -30,7 +31,9 @@ namespace Roguelike2.Serialization.Entities
         public static implicit operator Player(PlayerSerialized serialized)
         {
             return new Player(
-                serialized.Position);
+                serialized.Position)
+            {
+            };
         }
     }
 }

@@ -30,8 +30,6 @@ namespace Roguelike2.Entities
 
         public int FovRadius => 8;
 
-        private string DebuggerDisplay => nameof(Player);
-
         public void CalculateFov()
         {
             CurrentMap?.PlayerFOV.Calculate(Position, FovRadius, CurrentMap.DistanceMeasurement);
@@ -41,5 +39,7 @@ namespace Roguelike2.Entities
         {
             CalculateFov();
         }
+
+        private string DebuggerDisplay => nameof(Player);
     }
 }

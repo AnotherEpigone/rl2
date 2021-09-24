@@ -8,16 +8,17 @@ namespace Roguelike2.Serialization
     public class SaveManager : ISaveManager
     {
         private const string FileName = "save.nova";
-        private readonly JsonSerializerSettings _jsonSettings;
 
         public SaveManager()
         {
-            _jsonSettings = new JsonSerializerSettings()
+            JsonSettings = new JsonSerializerSettings()
             { 
                 TypeNameHandling = TypeNameHandling.All,
                 ContractResolver = new GameStateContract(),
             };
         }
+
+        public JsonSerializerSettings JsonSettings { get; }
 
         public void Write(GameState save)
         {
@@ -33,7 +34,7 @@ namespace Roguelike2.Serialization
             using var file = File.OpenWrite(saveFilePath);
             using var writer = new StreamWriter(file);
 
-            var json = JsonConvert.SerializeObject(save, _jsonSettings);
+            var json = JsonConvert.SerializeObject(save, JsonSettings);
             writer.Write(json);
         }
 
@@ -48,7 +49,7 @@ namespace Roguelike2.Serialization
 
             using var file = File.OpenRead(saveFilePath);
             using var reader = new StreamReader(file);
-            var save = JsonConvert.DeserializeObject<GameState>(reader.ReadToEnd(), _jsonSettings);
+            var save = JsonConvert.DeserializeObject<GameState>(reader.ReadToEnd(), JsonSettings);
 
             return (true, save);
         }
