@@ -18,18 +18,27 @@ namespace Roguelike2.Serialization.Entities
     public class ItemSerialized
     {
         [DataMember] public object[] Components;
+        [DataMember] public string TemplateId;
+        [DataMember] public string Name;
+        [DataMember] public int Glyph;
 
         public static implicit operator ItemSerialized(Item item)
         {
             return new ItemSerialized()
             {
+                TemplateId = item.TemplateId,
+                Name = item.Name,
+                Glyph = item.Glyph,
                 Components = item.GoRogueComponents.Select(pair => pair.Component).ToArray(),
             };
         }
 
         public static implicit operator Item(ItemSerialized serialized)
         {
-            var item = new Item();
+            var item = new Item(
+                serialized.TemplateId,
+                serialized.Name,
+                serialized.Glyph);
             foreach (var component in serialized.Components)
             {
                 item.GoRogueComponents.Add(component);

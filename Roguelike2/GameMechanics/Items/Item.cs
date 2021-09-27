@@ -12,13 +12,33 @@ namespace Roguelike2.GameMechanics.Items
     {
         private readonly IComponentCollection _components;
 
-        public Item()
+        public Item(ItemTemplate template)
+         : this(
+               template.Id,
+               template.Name,
+               template.Glyph)
+        { }
+
+        public Item(
+            string templateId,
+            string name,
+            int glyph)
         {
+            TemplateId = templateId;
+            Name = name;
+            Glyph = glyph;
+
             _components = new ComponentCollection()
             {
                 ParentForAddedComponents = this,
             };
         }
+
+        public string TemplateId { get; }
+
+        public string Name { get; }
+
+        public int Glyph { get; }
 
         public IComponentCollection GoRogueComponents => _components;
 

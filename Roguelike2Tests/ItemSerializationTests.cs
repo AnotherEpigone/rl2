@@ -11,7 +11,7 @@ namespace Roguelike2Tests
         [Test]
         public void ItemWithComponents_SerializeDeserialize()
         {
-            var item = new Item();
+            var item = new Item(ItemAtlas.EtheriumShard);
             item.GoRogueComponents.Add(new HealthRegenEffect(2f));
             item.GoRogueComponents.Add(new FovRangeEffect(3));
 
@@ -22,6 +22,9 @@ namespace Roguelike2Tests
             Assert.AreEqual(2, serializedItem.GoRogueComponents.Count);
             Assert.AreEqual(2f, serializedItem.GoRogueComponents.GetFirst<IHealthRegenEffect>().Value);
             Assert.AreEqual(3, serializedItem.GoRogueComponents.GetFirst<IFovRangeEffect>().Modifier);
+            Assert.AreEqual(ItemAtlas.EtheriumShard.Id, serializedItem.TemplateId);
+            Assert.AreEqual(ItemAtlas.EtheriumShard.Name, serializedItem.Name);
+            Assert.AreEqual(ItemAtlas.EtheriumShard.Glyph, serializedItem.Glyph);
         }
     }
 }
