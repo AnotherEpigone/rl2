@@ -1,5 +1,6 @@
 ﻿using GoRogue.MapGeneration;
 using Roguelike2.Entities;
+using Roguelike2.GameMechanics.Items;
 using Roguelike2.Logging;
 using Roguelike2.Maps;
 using Roguelike2.Serialization;
@@ -116,6 +117,21 @@ namespace Roguelike2
             var playerPosition = map.WalkabilityView.RandomPosition(true, rng);
             var player = new Player(playerPosition);
             map.AddEntity(player);
+
+            for ( int i = 0; i < 10; i++)
+            {
+                var staffPosition = map.WalkabilityView.RandomPosition(true, rng);
+                var staff = new ItemEntity(staffPosition, new Item(ItemAtlas.StarterOakStaff));
+                map.AddEntity(staff);
+
+                var cloakPosition = map.WalkabilityView.RandomPosition(true, rng);
+                var cloak = new ItemEntity(cloakPosition, new Item(ItemAtlas.StarterHomespunCloak));
+                map.AddEntity(cloak);
+
+                var swordPosition = map.WalkabilityView.RandomPosition(true, rng);
+                var sword = new ItemEntity(swordPosition, new Item(ItemAtlas.SteelLongsword));
+                map.AddEntity(sword);
+            }
 
             _game = new DungeonMaster(player, _logger);
 

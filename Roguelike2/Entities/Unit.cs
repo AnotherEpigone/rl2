@@ -45,8 +45,6 @@ namespace Roguelike2.Entities
 
         public DateTime LastSelected { get; private set; }
 
-        private string DebuggerDisplay => $"{nameof(Unit)}: {Name}";
-
         public UnitMovementResult TryMove(Point target)
         {
             if (!CurrentMap.WalkabilityView[target])
@@ -72,5 +70,7 @@ namespace Roguelike2.Entities
         {
             Position = target;
         }
+
+        private string DebuggerDisplay => $"{nameof(Unit)}: {Name}";
     }
 }
