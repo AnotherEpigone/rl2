@@ -55,6 +55,11 @@ namespace Roguelike2.GameMechanics
                 return true;
             }
 
+            if (keyboard.IsKeyPressed(Keys.G))
+            {
+                // TODO pick up
+            }
+
             return false;
         }
 
