@@ -2,6 +2,7 @@
 using Roguelike2.Entities;
 using Roguelike2.Fonts;
 using Roguelike2.GameMechanics;
+using Roguelike2.Logging;
 using SadConsole.Input;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
@@ -28,7 +29,10 @@ namespace Roguelike2.Maps
         {
         }
 
-        public WorldMapManager(IPlayerController playerController, DungeonMaster game, WorldMap map)
+        public WorldMapManager(
+            IPlayerController playerController,
+            DungeonMaster game,
+            WorldMap map)
         {
             _map = map;
             _map.RightMouseButtonDown += Map_RightMouseButtonDown;
@@ -88,6 +92,12 @@ namespace Roguelike2.Maps
                 return true;
             }
 
+            if (keyboard.IsKeyPressed(Keys.G))
+            {
+                PickUpItem();
+                return true;
+            }
+
             if (_playerController.HandleKeyboard(_game, keyboard))
             {
                 return true;
@@ -112,39 +122,23 @@ namespace Roguelike2.Maps
             return cost;
         }
 
-        private void MoveSelectedUnit(Point target)
+        private void PickUpItem()
         {
-            // TODO adapt to RL
-            if (SelectedUnit == null)
+            var itemEntity = _map.GetEntityAt<ItemEntity>(_game.Player.Position);
+            if (itemEntity == null)
             {
                 return;
             }
 
-            var path = _aStar.ShortestPath(SelectedPoint, target);
-            if (path == null)
+            if (_game.Player.Inventory.IsFilled)
             {
+                _game.Logger.Gameplay($"Can't pick up {itemEntity.Name}. Inventory is full.");
                 return;
             }
 
-            foreach (var step in path.Steps)
-            {
-                var result = SelectedUnit.TryMove(step);
-                switch (result)
-                {
-                    case UnitMovementResult.NoMovement:
-                    case UnitMovementResult.Blocked:
-                        break;
-                    case UnitMovementResult.Moved:
-                        continue;
-                    case UnitMovementResult.Combat:
-                        // TODO handle bump
-                        break;
-                };
-
-                break;
-            }
-
-            SelectedPoint = SelectedUnit?.Position ?? Point.None;
+            _map.RemoveEntity(itemEntity);
+            _game.Player.Inventory.AddItem(itemEntity.Item, _game);
+            _game.Logger.Gameplay($"Picked up {itemEntity.Name}.");
         }
 
         private void Map_RightMouseButtonDown(object sender, MouseScreenObjectState e)
@@ -153,6 +147,10 @@ namespace Roguelike2.Maps
 
         private void Map_LeftMouseClick(object sender, MouseScreenObjectState e)
         {
+            if (e.CellPosition == _game.Player.Position)
+            {
+                PickUpItem();
+            }
         }
 
         private void Player_Moved(object sender, GoRogue.GameFramework.GameObjectPropertyChanged<Point> e)

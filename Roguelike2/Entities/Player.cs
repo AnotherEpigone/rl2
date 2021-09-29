@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Roguelike2.Components;
 using Roguelike2.Fonts;
 using Roguelike2.Maps;
 using Roguelike2.Serialization.Entities;
@@ -26,9 +27,35 @@ namespace Roguelike2.Entities
                   "Player")
         {
             Moved += Player_Moved;
+
+            Inventory = new InventoryComponent(5);
+            AllComponents.Add(Inventory);
+        }
+
+        public Player(PlayerSerialized serialized)
+            : base(
+                  serialized.Position,
+                  WorldGlyphAtlas.PlayerDefault,
+                  "Me",
+                  false,
+                  true,
+                  (int)MapEntityLayer.ACTORS,
+                  Guid.NewGuid(),
+                  Guid.NewGuid(), // TODO Faction ID
+                  "Player")
+        {
+            foreach (var component in serialized.Components)
+            {
+                AllComponents.Add(component);
+            }
+
+            Inventory = AllComponents.GetFirst<IInventoryComponent>();
         }
 
         public int FovRadius => 8;
+
+        // Exposed here since the player is guaranteed to have an inventory.
+        public IInventoryComponent Inventory { get; }
 
         public void CalculateFov()
         {

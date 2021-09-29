@@ -13,11 +13,12 @@ namespace Roguelike2.Components
         public int FilledCapacity { get; }
 
         public int Capacity { get; }
+        bool IsFilled { get; }
 
         IReadOnlyCollection<Item> GetItems();
 
-        void AddItem(Item item, DungeonMaster dungeonMaster, ILogger logger);
+        void AddItem(Item item, DungeonMaster dungeonMaster);
 
-        void RemoveItem(Item item, DungeonMaster dungeonMaster, ILogger logger);
+        void RemoveItem(Item item, DungeonMaster dungeonMaster);
     }
 }

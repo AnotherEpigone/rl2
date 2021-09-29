@@ -3,6 +3,7 @@ using Roguelike2.Entities;
 using Roguelike2.GameMechanics.Items;
 using SadRogue.Primitives;
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Roguelike2.Serialization.Entities
@@ -19,21 +20,20 @@ namespace Roguelike2.Serialization.Entities
     public class PlayerSerialized
     {
         [DataMember] public Point Position;
+        [DataMember] public object[] Components;
 
         public static implicit operator PlayerSerialized(Player player)
         {
             return new PlayerSerialized()
             {
                 Position = player.Position,
+                Components = player.AllComponents.Select(pair => pair.Component).ToArray(),
             };
         }
 
         public static implicit operator Player(PlayerSerialized serialized)
         {
-            return new Player(
-                serialized.Position)
-            {
-            };
+            return new Player(serialized);
         }
     }
 }

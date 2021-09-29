@@ -1,12 +1,12 @@
 ﻿using GoRogue.Components.ParentAware;
 using Roguelike2.GameMechanics.Items;
-using Roguelike2.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Roguelike2.Components
 {
+    // TODO serialization
     public class InventoryComponent : IInventoryComponent
     {
         private readonly List<Item> _items;
@@ -23,9 +23,11 @@ namespace Roguelike2.Components
 
         public int FilledCapacity => _items.Count;
 
+        public bool IsFilled => FilledCapacity >= Capacity;
+
         public int Capacity { get; }
 
-        public void AddItem(Item item, DungeonMaster dungeonMaster, ILogger logger)
+        public void AddItem(Item item, DungeonMaster dungeonMaster)
         {
             _items.Add(item);
 
@@ -38,7 +40,7 @@ namespace Roguelike2.Components
             ContentsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void RemoveItem(Item item, DungeonMaster dungeonMaster, ILogger logger)
+        public void RemoveItem(Item item, DungeonMaster dungeonMaster)
         {
             _items.Remove(item);
             /*foreach (var triggeredComponent in item.GetGoRogueComponents<IInventoryTriggeredComponent>())
