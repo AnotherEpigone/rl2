@@ -1,4 +1,7 @@
-﻿using SadRogue.Primitives;
+﻿using SadConsole.UI;
+using SadConsole.UI.Controls;
+using SadConsole.UI.Themes;
+using SadRogue.Primitives;
 
 namespace Roguelike2.Ui
 {

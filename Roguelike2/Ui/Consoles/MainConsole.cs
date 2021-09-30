@@ -16,6 +16,7 @@ namespace Roguelike2.Ui.Consoles
         private readonly WorldMapManager _mapManager;
         private readonly TransientMessageConsole _transientMessageConsole;
         private readonly AlertMessageConsole _alertMessageConsole;
+        private readonly MainConsoleLeftPane _leftPane;
 
         public MainConsole(
             IGameManager gameManager,
@@ -65,13 +66,13 @@ namespace Roguelike2.Ui.Consoles
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth - 60, uiManager.ViewPortHeight - 2),
             };
 
-            var leftPane = new MainConsoleLeftPane(
+            _leftPane = new MainConsoleLeftPane(
                 LeftPaneWidth,
                 uiManager.ViewPortHeight,
                 uiManager,
                 gameManager);
 
-            Map.Position = new Point(LeftPaneWidth * leftPane.Font.GlyphWidth, 0);
+            Map.Position = new Point(LeftPaneWidth * _leftPane.Font.GlyphWidth, 0);
 
             Children.Add(Map);
             Children.Add(minimap);
@@ -79,7 +80,7 @@ namespace Roguelike2.Ui.Consoles
             Children.Add(logConsole);
             Children.Add(_transientMessageConsole);
             Children.Add(_alertMessageConsole);
-            Children.Add(leftPane);
+            Children.Add(_leftPane);
 
             if (debug)
             {
@@ -101,6 +102,7 @@ namespace Roguelike2.Ui.Consoles
         {
             base.Update(delta);
             _mapManager.Update();
+            _leftPane.Update(Game);
         }
 
         public override bool ProcessKeyboard(Keyboard info)

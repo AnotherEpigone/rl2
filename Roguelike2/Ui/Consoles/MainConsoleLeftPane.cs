@@ -6,6 +6,8 @@ namespace Roguelike2.Ui.Consoles
 {
     public class MainConsoleLeftPane : NovaControlsConsole
     {
+        private readonly PlayerStatusConsole _playerConsole;
+
         public MainConsoleLeftPane(
             int width,
             int height,
@@ -31,7 +33,7 @@ namespace Roguelike2.Ui.Consoles
                 Theme = ThemeHelper.ButtonThemeNoEnds(),
             };
 
-            var playerConsole = new PlayerStatusConsole(width, height - 1)
+            _playerConsole = new PlayerStatusConsole(width, height - 1)
             {
                 Position = new Point(0, 1),
             };
@@ -39,7 +41,12 @@ namespace Roguelike2.Ui.Consoles
             Controls.Add(mainMenuButton);
             Controls.Add(gameMenuButton);
 
-            Children.Add(playerConsole);
+            Children.Add(_playerConsole);
+        }
+
+        public void Update(DungeonMaster dm)
+        {
+            _playerConsole.Update(dm);
         }
     }
 }
