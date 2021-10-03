@@ -51,6 +51,7 @@ namespace Roguelike2.Ui.Windows
             dropButton.Click += (_, __) =>
             {
                 dm.Player.Inventory.DropItem(item, dm);
+                dm.Logger.Gameplay($"Dropped {item.Name}.");
                 Hide();
             };
 

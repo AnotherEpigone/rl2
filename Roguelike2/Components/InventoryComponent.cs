@@ -27,6 +27,8 @@ namespace Roguelike2.Components
 
         public int FilledCapacity => _items.Count;
 
+        public int EmptyCapacity => Capacity - FilledCapacity;
+
         public bool IsFilled => FilledCapacity >= Capacity;
 
         public int Capacity { get; }

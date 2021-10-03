@@ -14,6 +14,7 @@ namespace Roguelike2.Components
 
         public int Capacity { get; }
         bool IsFilled { get; }
+        int EmptyCapacity { get; }
 
         IReadOnlyCollection<Item> GetItems();
 

@@ -3,6 +3,7 @@ using Roguelike2.Entities;
 using Roguelike2.Fonts;
 using Roguelike2.GameMechanics;
 using Roguelike2.Logging;
+using Roguelike2.Ui.Windows;
 using SadConsole.Input;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
@@ -94,7 +95,7 @@ namespace Roguelike2.Maps
 
             if (keyboard.IsKeyPressed(Keys.G))
             {
-                PickUpItem();
+                InteractSelf();
                 return true;
             }
 
@@ -122,23 +123,58 @@ namespace Roguelike2.Maps
             return cost;
         }
 
-        private void PickUpItem()
+        // Interact with anything at the player's location.
+        private void InteractSelf()
+        {
+            if (PickupItem())
+            {
+                return;
+            }
+
+            if (ItemStackInteract())
+            {
+                return;
+            }
+        }
+
+        private bool PickupItem()
         {
             var itemEntity = _map.GetEntityAt<ItemEntity>(_game.Player.Position);
             if (itemEntity == null)
             {
-                return;
+                return false;
             }
 
             if (_game.Player.Inventory.IsFilled)
             {
                 _game.Logger.Gameplay($"Can't pick up {itemEntity.Name}. Inventory is full.");
-                return;
+                return false;
             }
 
             _map.RemoveEntity(itemEntity);
             _game.Player.Inventory.AddItem(itemEntity.Item, _game);
             _game.Logger.Gameplay($"Picked up {itemEntity.Name}.");
+            return true;
+        }
+
+        private bool ItemStackInteract()
+        {
+            var itemStackEntity = _map.GetEntityAt<ItemStackEntity>(_game.Player.Position);
+            if (itemStackEntity == null)
+            {
+                return false;
+            }
+
+            if (_game.Player.Inventory.IsFilled)
+            {
+                _game.Logger.Gameplay($"Can't take anything from an item stack. Inventory is full.");
+                return false;
+            }
+
+            var itemStackWindow = new ItemStackInteractWindow(itemStackEntity, _game);
+            itemStackWindow.Position = _map.Position / itemStackWindow.FontSize;
+            itemStackWindow.Show(true);
+            return true;
         }
 
         private void Map_RightMouseButtonDown(object sender, MouseScreenObjectState e)
@@ -149,7 +185,7 @@ namespace Roguelike2.Maps
         {
             if (e.CellPosition == _game.Player.Position)
             {
-                PickUpItem();
+                InteractSelf();
             }
         }
 
