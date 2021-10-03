@@ -59,28 +59,27 @@ namespace Roguelike2.Components
         {
             var parent = (NovaEntity)Parent;
             var position = parent.Position;
-            if (parent.CurrentMap.GetEntityAt<ItemEntity>(position, LayerMasker.DEFAULT.Mask((int)MapLayer.ITEMS)) != null)
-            {
-                var foundSpot = false;
-                foreach (var neighborPos in AdjacencyRule.EightWay.Neighbors(position))
-                {
-                    if (parent.CurrentMap.GetEntityAt<ItemEntity>(neighborPos, LayerMasker.DEFAULT.Mask((int)MapLayer.ITEMS)) == null)
-                    {
-                        position = neighborPos;
-                        foundSpot = true;
-                        break;
-                    }
-                }
-
-                if (!foundSpot)
-                {
-                    // TODO make better... dumb mechanic.
-                    dungeonMaster.Logger.Gameplay($"There is no room to drop {item.Name}");
-                    return;
-                }
-            }
 
             RemoveItem(item, dungeonMaster);
+            var existingItem = parent.CurrentMap.GetEntityAt<ItemEntity>(position, LayerMasker.DEFAULT.Mask((int)MapLayer.ITEMS));
+            if (existingItem != null)
+            {
+                // combine two items into a new stack
+                parent.CurrentMap.RemoveEntity(existingItem);
+                var newItemStack = new ItemStackEntity(position, new Item[] { item, existingItem.Item });
+                parent.CurrentMap.AddEntity(newItemStack);
+                return;
+            }
+
+            var existingStack = parent.CurrentMap.GetEntityAt<ItemStackEntity>(position, LayerMasker.DEFAULT.Mask((int)MapLayer.ITEMS));
+            if (existingStack != null)
+            {
+                // add to existing stack
+                existingStack.Items.Add(item);
+                return;
+            }
+
+            // nothing here, drop a new item entity
             var droppedItem = new ItemEntity(position, item);
             parent.CurrentMap.AddEntity(droppedItem);
         }
