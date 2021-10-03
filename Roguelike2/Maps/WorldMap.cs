@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Roguelike2.Maps
 {
-    public enum MapEntityLayer
+    public enum MapLayer
     {
         TERRAIN,
         TERRAINFEATURES,
@@ -29,9 +29,9 @@ namespace Roguelike2.Maps
                   width,
                   height,
                   null,
-                  Enum.GetNames(typeof(MapEntityLayer)).Length,
+                  Enum.GetNames(typeof(MapLayer)).Length,
                   Distance.Chebyshev,
-                  entityLayersSupportingMultipleItems: GoRogue.SpatialMaps.LayerMasker.DEFAULT.Mask((int)MapEntityLayer.ITEMS, (int)MapEntityLayer.ACTORS, (int)MapEntityLayer.EFFECTS, (int)MapEntityLayer.GUI))
+                  entityLayersSupportingMultipleItems: GoRogue.SpatialMaps.LayerMasker.DEFAULT.Mask((int)MapLayer.ITEMS, (int)MapLayer.ACTORS, (int)MapLayer.EFFECTS, (int)MapLayer.GUI))
         {
             Font = font;
 

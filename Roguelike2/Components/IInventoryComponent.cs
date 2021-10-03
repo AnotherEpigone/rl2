@@ -20,5 +20,6 @@ namespace Roguelike2.Components
         void AddItem(Item item, DungeonMaster dungeonMaster);
 
         void RemoveItem(Item item, DungeonMaster dungeonMaster);
+        void DropItem(Item item, DungeonMaster dungeonMaster);
     }
 }

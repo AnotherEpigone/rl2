@@ -14,7 +14,7 @@ namespace Roguelike2.Entities
                 template.Name,
                 false,
                 true,
-                (int)MapEntityLayer.ACTORS,
+                (int)MapLayer.ACTORS,
                 Guid.NewGuid(),
                 empireId,
                 template.Id);

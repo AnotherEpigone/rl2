@@ -33,7 +33,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             _healthBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
                 Position = new Point(0, 0),
-                Theme = new SimpleProgressBarTheme(Color.DarkRed, Color.DarkRed, ColorHelper.Text),
+                Theme = new SimpleProgressBarTheme(Color.DarkRed.SetAlpha(150), Color.DarkRed.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Health 50/50",
                 DisplayTextColor = Color.White,
             };
@@ -42,7 +42,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             _focusBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
                 Position = new Point(0, 1),
-                Theme = new SimpleProgressBarTheme(Color.DarkBlue, Color.DarkBlue, ColorHelper.Text),
+                Theme = new SimpleProgressBarTheme(Color.DarkBlue.SetAlpha(150), Color.DarkBlue.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Focus 100%",
                 DisplayTextColor = Color.White,
             };
@@ -51,7 +51,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             _primeMatterBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
                 Position = new Point(0, 2),
-                Theme = new SimpleProgressBarTheme(ColorHelper.DarkGrey2, ColorHelper.DarkGrey2, ColorHelper.Text),
+                Theme = new SimpleProgressBarTheme(ColorHelper.DarkGrey2.SetAlpha(150), ColorHelper.DarkGrey2.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Prime Matter 300/300",
                 DisplayTextColor = Color.White,
             };
@@ -60,7 +60,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             _virtueBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
                 Position = new Point(0, 4),
-                Theme = new SimpleProgressBarTheme(Color.DarkGoldenrod, Color.DarkGoldenrod, ColorHelper.Text),
+                Theme = new SimpleProgressBarTheme(Color.DarkGoldenrod.SetAlpha(150), Color.DarkGoldenrod.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Virtue 50",
                 DisplayTextColor = Color.White,
             };
@@ -69,7 +69,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             _sanityBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
                 Position = new Point(0, 5),
-                Theme = new SimpleProgressBarTheme(Color.DarkOliveGreen, Color.DarkOliveGreen, ColorHelper.Text),
+                Theme = new SimpleProgressBarTheme(Color.DarkOliveGreen.SetAlpha(150), Color.DarkOliveGreen.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Sanity 100%",
                 DisplayTextColor = Color.White,
             };

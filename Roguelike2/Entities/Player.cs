@@ -21,7 +21,7 @@ namespace Roguelike2.Entities
                   "Me",
                   false,
                   true,
-                  (int)MapEntityLayer.ACTORS,
+                  (int)MapLayer.ACTORS,
                   Guid.NewGuid(),
                   Guid.NewGuid(), // TODO Faction ID
                   "Player")
@@ -39,7 +39,7 @@ namespace Roguelike2.Entities
                   "Me",
                   false,
                   true,
-                  (int)MapEntityLayer.ACTORS,
+                  (int)MapLayer.ACTORS,
                   Guid.NewGuid(),
                   Guid.NewGuid(), // TODO Faction ID
                   "Player")

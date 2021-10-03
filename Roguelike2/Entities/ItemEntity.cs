@@ -21,7 +21,7 @@ namespace Roguelike2.Entities
         }
 
         public ItemEntity(Point position, Item item, Guid id)
-            : base(position, item.Glyph, item.Name, true, true, (int)MapEntityLayer.ITEMS, id)
+            : base(position, item.Glyph, item.Name, true, true, (int)MapLayer.ITEMS, id)
         {
             Item = item;
         }

@@ -43,7 +43,7 @@ namespace Roguelike2.Serialization.Entities
                 template.Name,
                 false,
                 true,
-                (int)MapEntityLayer.ACTORS,
+                (int)MapLayer.ACTORS,
                 serialized.UnitId,
                 serialized.EmpireId,
                 serialized.TemplateId)

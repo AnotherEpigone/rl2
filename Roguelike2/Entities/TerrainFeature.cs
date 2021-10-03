@@ -18,7 +18,7 @@ namespace Roguelike2.Entities
             string name,
             bool transparent,
             int movementCost)
-            : base(position, glyph, name, true, transparent, (int)MapEntityLayer.TERRAINFEATURES, Guid.NewGuid())
+            : base(position, glyph, name, true, transparent, (int)MapLayer.TERRAINFEATURES, Guid.NewGuid())
         {
             Glyph = glyph;
             MovementCost = movementCost;
