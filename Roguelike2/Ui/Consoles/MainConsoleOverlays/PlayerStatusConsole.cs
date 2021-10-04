@@ -13,21 +13,18 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
         private readonly ProgressBar _virtueBar;
         private readonly ProgressBar _sanityBar;
 
-        public PlayerStatusConsole(int width, int height)
-            : base(width, height)
+        public PlayerStatusConsole(int width)
+            : base(width, 7)
         {
             DefaultBackground = ColorHelper.ControlBack;
             UseMouse = false;
 
             this.Fill(background: ColorHelper.ControlBack);
-            Surface.DrawBox(
-                new Rectangle(0, 0, Width, Height),
-                new ColoredGlyph(ColorHelper.Text, ColorHelper.ControlBack),
-                connectedLineStyle: ICellSurface.ConnectedLineThin);
+            DrawOutline();
 
-            var statBarConsole = new NovaControlsConsole(width - 2, 6)
+            var statBarConsole = new NovaControlsConsole(width - 2, 5)
             {
-                Position = new Point(1, 4),
+                Position = new Point(1, 1),
             };
             
             _healthBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
@@ -59,7 +56,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 
             _virtueBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
-                Position = new Point(0, 4),
+                Position = new Point(0, 3),
                 Theme = new SimpleProgressBarTheme(Color.DarkGoldenrod.SetAlpha(150), Color.DarkGoldenrod.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Virtue 50",
                 DisplayTextColor = Color.White,
@@ -68,7 +65,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 
             _sanityBar = new ProgressBar(statBarConsole.Width, 1, HorizontalAlignment.Left)
             {
-                Position = new Point(0, 5),
+                Position = new Point(0, 4),
                 Theme = new SimpleProgressBarTheme(Color.DarkOliveGreen.SetAlpha(150), Color.DarkOliveGreen.SetAlpha(150), ColorHelper.Text),
                 DisplayText = "Sanity 100%",
                 DisplayTextColor = Color.White,
@@ -86,6 +83,19 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             _primeMatterBar.Progress = 1f;
             _virtueBar.Progress = 1f;
             _sanityBar.Progress = 1f;
+        }
+
+        private void DrawOutline()
+        {
+            Surface.DrawBox(
+                new Rectangle(0, 0, Width, Height),
+                new ColoredGlyph(ColorHelper.Text, ColorHelper.ControlBack),
+                connectedLineStyle: ICellSurface.ConnectedLineThin);
+
+            var title = $"Player";
+            Cursor.Position = new Point((Width - title.Length) / 2, 0);
+            var coloredTitle = new ColoredString(title, DefaultForeground, DefaultBackground);
+            Cursor.Print(coloredTitle);
         }
     }
 }

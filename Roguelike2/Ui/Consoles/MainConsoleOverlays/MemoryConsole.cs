@@ -3,11 +3,11 @@ using SadRogue.Primitives;
 
 namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 {
-    public class InventoryConsole : Console
+    public class MemoryConsole : Console
     {
         private readonly DungeonMaster _dm;
 
-        public InventoryConsole(int width, int height, DungeonMaster dm)
+        public MemoryConsole(int width, int height, DungeonMaster dm)
             : base(width, height)
         {
             DefaultBackground = ColorHelper.ControlBack;
@@ -18,15 +18,6 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 
             this.Fill(background: ColorHelper.ControlBack);
             DrawOutline();
-
-            var controlsConsole = new InventoryControlsConsole(width - 2, height - 2, dm)
-            {
-                Position = new Point(1, 1)
-            };
-
-            _dm.Player.Inventory.ContentsChanged += Inventory_ContentsChanged;
-
-            Children.Add(controlsConsole);
         }
 
         private void DrawOutline()
@@ -36,15 +27,10 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
                 new ColoredGlyph(ColorHelper.Text, ColorHelper.ControlBack),
                 connectedLineStyle: ICellSurface.ConnectedLineThin);
 
-            var title = $"Carried {_dm.Player.Inventory.FilledCapacity}/{_dm.Player.Inventory.Capacity}";
+            var title = $"Memory";
             Cursor.Position = new Point((Width - title.Length) / 2, 0);
             var coloredTitle = new ColoredString(title, DefaultForeground, DefaultBackground);
             Cursor.Print(coloredTitle);
-        }
-
-        private void Inventory_ContentsChanged(object sender, System.EventArgs e)
-        {
-            DrawOutline();
         }
     }
 }

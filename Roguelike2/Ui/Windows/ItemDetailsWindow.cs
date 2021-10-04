@@ -1,5 +1,4 @@
-﻿using Roguelike2.Entities;
-using Roguelike2.GameMechanics.Items;
+﻿using Roguelike2.GameMechanics.Items;
 using Roguelike2.Ui.Controls;
 using SadConsole;
 using SadConsole.Input;
