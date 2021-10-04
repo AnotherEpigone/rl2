@@ -11,7 +11,7 @@ namespace Roguelike2.Serialization.Settings
         private const string DebugPasswordSettingKey = "debug-pw";
         private const string DebugPassword = "Extra ecclesiam nulla salus";
         private const string ViewportSettingKey = "viewport";
-        private const string ViewportDefault = "1280x720";
+        private const string ViewportDefault = "1600x896";
 
         private const string ConfigPath = "config.ini";
 
@@ -29,7 +29,7 @@ namespace Roguelike2.Serialization.Settings
             {
                 _fullScreen = false;
                 _debug = false;
-                _viewport = (1280, 720);
+                _viewport = (1600, 896);
 
                 Write();
             }
