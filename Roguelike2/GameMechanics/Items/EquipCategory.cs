@@ -10,6 +10,7 @@ namespace Roguelike2.GameMechanics.Items
         Cloak,
         Weapon,
         Trinket,
+        Pack,
     }
 
     [DataContract]

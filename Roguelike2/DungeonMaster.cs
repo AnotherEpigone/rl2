@@ -3,7 +3,7 @@ using Roguelike2.Logging;
 
 namespace Roguelike2
 {
-    public class DungeonMaster
+    public class DungeonMaster : IDungeonMaster
     {
         public DungeonMaster(
             Player player,
