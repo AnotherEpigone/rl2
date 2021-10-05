@@ -3,21 +3,24 @@ using GoRogue.SpatialMaps;
 using Roguelike2.Entities;
 using Roguelike2.GameMechanics.Items;
 using Roguelike2.Maps;
-using SadRogue.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Roguelike2.Components
 {
-    // TODO serialization
+    [DataContract]
     public class InventoryComponent : IInventoryComponent
     {
-        private readonly List<Item> _items;
+        /// <summary>Serialization-only, don't use.</summary>
+        public InventoryComponent()
+        {
+        }
 
         public InventoryComponent(int capacity, params Item[] items)
         {
-            _items = items.ToList();
+            Items = items.ToList();
             Capacity = capacity;
         }
 
@@ -25,17 +28,22 @@ namespace Roguelike2.Components
 
         public IObjectWithComponents Parent { get; set; }
 
-        public int FilledCapacity => _items.Count;
+        public int FilledCapacity => Items.Count;
 
         public int EmptyCapacity => Capacity - FilledCapacity;
 
         public bool IsFilled => FilledCapacity >= Capacity;
 
-        public int Capacity { get; }
+        [DataMember]
+        public int Capacity { get; init; }
+
+        /// <summary>Serialization-only, don't use.</summary>
+        [DataMember]
+        public List<Item> Items { get; init; }
 
         public void AddItem(Item item, DungeonMaster dungeonMaster)
         {
-            _items.Add(item);
+            Items.Add(item);
 
             // todo
             /*foreach (var triggeredComponent in item.GetGoRogueComponents<IInventoryTriggeredComponent>())
@@ -48,7 +56,7 @@ namespace Roguelike2.Components
 
         public void RemoveItem(Item item, DungeonMaster dungeonMaster)
         {
-            _items.Remove(item);
+            Items.Remove(item);
             /*foreach (var triggeredComponent in item.GetGoRogueComponents<IInventoryTriggeredComponent>())
             {
                 triggeredComponent.OnRemovedFromInventory((McEntity)Parent, dungeonMaster, logManager);
@@ -88,7 +96,7 @@ namespace Roguelike2.Components
 
         public IReadOnlyCollection<Item> GetItems()
         {
-            return _items;
+            return Items;
         }
     }
 }

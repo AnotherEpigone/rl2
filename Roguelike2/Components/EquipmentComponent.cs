@@ -10,6 +10,7 @@ namespace Roguelike2.Components
     [DataContract]
     public class EquipmentComponent : IEquipmentComponent
     {
+        /// <summary>Serialization-only, don't use.</summary>
         public EquipmentComponent()
             :this(Array.Empty<EquipCategory>())
         {
