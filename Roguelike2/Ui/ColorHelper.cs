@@ -33,6 +33,8 @@ namespace Roguelike2.Ui
         public static Color ImportantAction => ActionYellow;
         public static Color GoblinGreen => BayeuxGreen;
 
+        public static Color MadnessPurple => new Color(30, 0, 60);
+
         // colors
         public static Color BayeuxParchment => new Color(217, 209, 159);
         public static Color BayeuxParchment2 => new Color(206, 196, 132);
