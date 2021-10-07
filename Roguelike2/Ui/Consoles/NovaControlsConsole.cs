@@ -1,4 +1,5 @@
 ﻿using Roguelike2.Ui.Controls;
+using SadConsole;
 using SadConsole.UI;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,15 +8,26 @@ using System.Linq;
 namespace Roguelike2.Ui.Consoles
 {
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    public class NovaControlsConsole : ControlsConsole
+    public class NovaControlsConsole : Console
     {
         private Dictionary<NovaSelectionButton, System.Action> _selectionButtons;
         private NovaSelectionButton _lastFocusedButton;
 
         public NovaControlsConsole(int width, int height)
+            : this(width, height, false)
+        { }
+
+        public NovaControlsConsole(int width, int height, bool clearBackground)
             : base(width, height)
         {
+            Controls = new ControlHost
+            {
+                ClearOnAdded = clearBackground,
+            };
+            SadComponents.Add(Controls);
         }
+
+        public ControlHost Controls { get; }
 
         public void SetupSelectionButtons(params NovaSelectionButton[] buttons)
         {

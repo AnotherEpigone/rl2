@@ -65,5 +65,23 @@ namespace Roguelike2.Ui
         {
             return $"[c:r f:{color.ToParser()}]{text}[c:u]";
         }
+
+        public static Colors GetThemeColorsForBackgroundColor(Color bgColor)
+        {
+            var colors = Library.Default.Colors.Clone();
+
+            colors.ControlBackgroundNormal = new AdjustableColor(bgColor, "Control Background Normal", colors);
+            colors.ControlBackgroundDisabled = new AdjustableColor(bgColor, "Control Background Disabled", colors);
+            colors.ControlBackgroundMouseOver = new AdjustableColor(bgColor, "Control Background MouseOver", colors);
+            colors.ControlBackgroundMouseDown = new AdjustableColor(bgColor, "Control Background MouseDown", colors);
+            colors.ControlBackgroundSelected = new AdjustableColor(bgColor, "Control Background Selected", colors);
+            colors.ControlBackgroundFocused = new AdjustableColor(bgColor, "Control Background Focused", colors);
+
+            colors.ControlHostBackground = new AdjustableColor(bgColor, "Control Host Background", colors);
+
+            colors.RebuildAppearances();
+
+            return colors;
+        }
     }
 }

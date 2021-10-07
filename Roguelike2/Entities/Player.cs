@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Roguelike2.Components;
 using Roguelike2.Fonts;
+using Roguelike2.GameMechanics.Items;
 using Roguelike2.Maps;
 using Roguelike2.Serialization.Entities;
 using SadRogue.Primitives;
@@ -30,6 +31,16 @@ namespace Roguelike2.Entities
 
             Inventory = new InventoryComponent(5);
             AllComponents.Add(Inventory);
+
+            Equipment = new EquipmentComponent(new EquipCategory[]
+            {
+                new EquipCategory(EquipCategoryId.Staff, "Staff", 1),
+                new EquipCategory(EquipCategoryId.Weapon, "Weapon", 1),
+                new EquipCategory(EquipCategoryId.Cloak, "Cloak", 1),
+                new EquipCategory(EquipCategoryId.Trinket, "Trinket", 1),
+                new EquipCategory(EquipCategoryId.Pack, "Pack", 1),
+            });
+            AllComponents.Add(Equipment);
         }
 
         public Player(PlayerSerialized serialized)
@@ -54,8 +65,9 @@ namespace Roguelike2.Entities
 
         public int FovRadius => 8;
 
-        // Exposed here since the player is guaranteed to have an inventory.
         public IInventoryComponent Inventory { get; }
+
+        public IEquipmentComponent Equipment { get; }
 
         public void CalculateFov()
         {

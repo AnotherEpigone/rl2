@@ -10,7 +10,7 @@ namespace Roguelike2.Ui.Consoles.MainMenuPages
     public class SettingsConsole : NovaControlsConsole
     {
         public SettingsConsole(IUiManager uiManager, IGameManager gameManager, IAppSettings appSettings, int width, int height)
-            : base(width, height)
+            : base(width, height, true)
         {
             var buttonX = width / 2 - 15;
             const int topButtonY = 8;

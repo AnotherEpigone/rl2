@@ -61,7 +61,7 @@ namespace Roguelike2.Ui.Consoles
 
         private NovaControlsConsole CreateMenuConsole(IGameManager gameManager, int width, int height)
         {
-            var menuConsole = new NovaControlsConsole(width, height);
+            var menuConsole = new NovaControlsConsole(width, height, true);
 
             var buttonX = width / 2 - 12;
             const int topButtonY = 8;

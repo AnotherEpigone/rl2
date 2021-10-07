@@ -25,12 +25,11 @@ namespace Roguelike2.Ui.Windows
 
             Children.Add(background);
 
-            const string closeButtonText = "Close";
-            var closeButtonWidth = 12;
-            var closeButton = new NovaSelectionButton(closeButtonWidth, 1)
+            const int buttonWidth = 12;
+            var closeButton = new NovaSelectionButton(buttonWidth, 1)
             {
-                Text = closeButtonText,
-                Position = new Point(Width / 2 - closeButtonWidth / 2, 14),
+                Text = "Close",
+                Position = new Point(Width / 2 - buttonWidth / 2, 14),
             };
             closeButton.Click += (_, __) =>
             {
@@ -40,12 +39,10 @@ namespace Roguelike2.Ui.Windows
                 }
             };
 
-            const string dropButtonText = "Drop";
-            var dropButtonWidth = 12;
-            var dropButton = new NovaSelectionButton(dropButtonWidth, 1)
+            var dropButton = new NovaSelectionButton(buttonWidth, 1)
             {
-                Text = dropButtonText,
-                Position = new Point(Width / 2 - dropButtonWidth / 2, 13),
+                Text = "Drop",
+                Position = new Point(Width / 2 - buttonWidth / 2, 13),
             };
             dropButton.Click += (_, __) =>
             {
@@ -54,7 +51,28 @@ namespace Roguelike2.Ui.Windows
                 Hide();
             };
 
-            SetupSelectionButtons(dropButton, closeButton);
+            var equipButton = new NovaSelectionButton(buttonWidth, 1)
+            {
+                Text = "Equip",
+                Position = new Point(Width / 2 - buttonWidth / 2, 12),
+            };
+            equipButton.Click += (_, __) =>
+            {
+                var categoryId = ItemAtlas.ItemsById[item.TemplateId].EquipCategoryId;
+                if (!dm.Player.Equipment.CanEquip(item, categoryId))
+                {
+                    return;
+                }
+
+                dm.Logger.Gameplay($"{dm.Player.Name} equipped {item.Name}.");
+
+                dm.Player.Inventory.RemoveItem(item, dm);
+                dm.Player.Equipment.Equip(item, categoryId, dm);
+
+                Hide();
+            };
+
+            SetupSelectionButtons(equipButton, dropButton, closeButton);
         }
 
         public static void Show(int width, int height, Item item, DungeonMaster dm)
