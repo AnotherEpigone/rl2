@@ -1,14 +1,11 @@
 ﻿using GoRogue.Pathing;
 using Roguelike2.Entities;
-using Roguelike2.Fonts;
 using Roguelike2.GameMechanics;
-using Roguelike2.Logging;
 using Roguelike2.Ui.Windows;
 using SadConsole.Input;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 using System;
-using System.Linq;
 
 namespace Roguelike2.Maps
 {

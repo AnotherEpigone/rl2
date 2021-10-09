@@ -27,7 +27,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 
         private void OnItemSelected(Item item)
         {
-            var detailWindow = new ItemDetailsWindow(Width + 2, Height + 2, item, _dm)
+            var detailWindow = new ItemDetailsWindow(Width + 2, Height + 2, item, _dm, false)
             {
                 Position = new Point(Width + 2, Parent.Position.Y),
             };

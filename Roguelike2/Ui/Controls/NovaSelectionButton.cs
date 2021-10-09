@@ -78,7 +78,7 @@ namespace Roguelike2.Ui.Controls
                 return null;
             }
 
-            if (!PreviousSelection.IsEnabled)
+            if (!PreviousSelection.IsEnabled || !NextSelection.IsVisible)
             {
                 return PreviousSelection.SelectPrevious();
             }
@@ -98,7 +98,7 @@ namespace Roguelike2.Ui.Controls
                 return null;
             }
 
-            if (!NextSelection.IsEnabled)
+            if (!NextSelection.IsEnabled || !NextSelection.IsVisible)
             {
                 // scanning for the next button like this will stack overflow if it loops,
                 // so we maintain the stack here.
@@ -122,7 +122,7 @@ namespace Roguelike2.Ui.Controls
 
             stack.Add(this);
 
-            if (!NextSelection.IsEnabled)
+            if (!NextSelection.IsEnabled || !NextSelection.IsVisible)
             {
                 return NextSelection.SelectNextProtected(stack);
             }

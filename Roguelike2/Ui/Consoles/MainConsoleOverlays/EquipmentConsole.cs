@@ -1,4 +1,5 @@
-﻿using SadConsole;
+﻿using Roguelike2.Ui.Windows;
+using SadConsole;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
 using SadRogue.Primitives;
@@ -22,6 +23,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 
             _buttonConsole = new NovaControlsConsole(width - 2, height - 2)
             {
+                FocusOnMouseClick = false,
                 Position = new Point(1, 1),
             };
             Children.Add(_buttonConsole);
@@ -69,6 +71,11 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
                     };
                     itemButton.Click += (_, __) =>
                     {
+                        var detailWindow = new ItemDetailsWindow(Width, Height + 2, item, _dm, true)
+                        {
+                            Position = new Point(Width + 2, Position.Y),
+                        };
+                        detailWindow.Show(true);
                     };
 
                     _buttonConsole.Controls.Add(itemButton);

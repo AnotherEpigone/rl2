@@ -10,7 +10,12 @@ namespace Roguelike2.Ui.Windows
     {
         private bool _debounced;
 
-        public ItemDetailsWindow(int width, int height, Item item, DungeonMaster dm)
+        public ItemDetailsWindow(
+            int width,
+            int height,
+            Item item,
+            DungeonMaster dm,
+            bool equipped)
             : base(width, height)
         {
             CloseOnEscKey = false; // needs to be debounced
@@ -46,13 +51,23 @@ namespace Roguelike2.Ui.Windows
             };
             dropButton.Click += (_, __) =>
             {
-                dm.Player.Inventory.DropItem(item, dm);
+                if (equipped)
+                {
+                    var categoryId = ItemAtlas.ItemsById[item.TemplateId].EquipCategoryId;
+                    dm.Player.Equipment.Drop(item, categoryId, dm);
+                }
+                else
+                {
+                    dm.Player.Inventory.DropItem(item, dm);
+                }
+
                 dm.Logger.Gameplay($"Dropped {item.Name}.");
                 Hide();
             };
 
             var equipButton = new NovaSelectionButton(buttonWidth, 1)
             {
+                IsVisible = !equipped,
                 Text = "Equip",
                 Position = new Point(Width / 2 - buttonWidth / 2, 12),
             };
@@ -61,10 +76,11 @@ namespace Roguelike2.Ui.Windows
                 var categoryId = ItemAtlas.ItemsById[item.TemplateId].EquipCategoryId;
                 if (!dm.Player.Equipment.CanEquip(item, categoryId))
                 {
+                    dm.Logger.Gameplay($"Can't equip {item.Name}.");
                     return;
                 }
 
-                dm.Logger.Gameplay($"{dm.Player.Name} equipped {item.Name}.");
+                dm.Logger.Gameplay($"Equipped {item.Name}.");
 
                 dm.Player.Inventory.RemoveItem(item, dm);
                 dm.Player.Equipment.Equip(item, categoryId, dm);
@@ -72,13 +88,30 @@ namespace Roguelike2.Ui.Windows
                 Hide();
             };
 
-            SetupSelectionButtons(equipButton, dropButton, closeButton);
-        }
+            var unequipButton = new NovaSelectionButton(buttonWidth, 1)
+            {
+                IsVisible = equipped,
+                Text = "Unequip",
+                Position = new Point(Width / 2 - buttonWidth / 2, 12),
+            };
+            unequipButton.Click += (_, __) =>
+            {
+                if (dm.Player.Inventory.IsFilled)
+                {
+                    dm.Logger.Gameplay($"Can't unequip {item.Name}. Inventory is full.");
+                    return;
+                }
 
-        public static void Show(int width, int height, Item item, DungeonMaster dm)
-        {
-            var window = new ItemDetailsWindow(width, height, item, dm);
-            window.Show(true);
+                dm.Logger.Gameplay($"Unequipped {item.Name}.");
+
+                var categoryId = ItemAtlas.ItemsById[item.TemplateId].EquipCategoryId;
+                dm.Player.Equipment.Unequip(item, categoryId, dm);
+                dm.Player.Inventory.AddItem(item, dm);
+
+                Hide();
+            };
+
+            SetupSelectionButtons(equipButton, unequipButton, dropButton, closeButton);
         }
 
         public override bool ProcessKeyboard(Keyboard info)

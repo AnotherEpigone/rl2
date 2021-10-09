@@ -16,5 +16,6 @@ namespace Roguelike2.Components
         bool Equip(Item item, EquipCategoryId categoryId, IDungeonMaster dungeonMaster);
 
         bool Unequip(Item item, EquipCategoryId categoryId, IDungeonMaster dungeonMaster);
+        bool Drop(Item item, EquipCategoryId categoryId, IDungeonMaster dungeonMaster);
     }
 }
