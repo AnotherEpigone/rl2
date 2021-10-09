@@ -35,19 +35,19 @@ namespace Roguelike2.Ui.Consoles
                 Theme = ThemeHelper.ButtonThemeNoEnds(),
             };
 
-            _playerConsole = new PlayerStatusConsole(width)
+            var worldStatusConsole = new WorldStatusConsole(width, 4, dm)
             {
                 Position = new Point(0, 1),
             };
 
-            var memoryConsole = new MemoryConsole(width, 16, dm)
+            _playerConsole = new PlayerStatusConsole(width)
             {
-                Position = new Point(0, _playerConsole.Height + 1),
+                Position = new Point(0, worldStatusConsole.Height + 1),
             };
 
-            var equipmentConsole = new EquipmentConsole(width, 16, dm)
+            var equipmentConsole = new EquipmentConsole(width, 23, dm)
             {
-                Position = new Point(0, _playerConsole.Height + memoryConsole.Height + 1),
+                Position = new Point(0, _playerConsole.Position.Y + _playerConsole.Height),
             };
 
             _inventoryConsole = new InventoryConsole(width, 16, dm)
@@ -59,7 +59,7 @@ namespace Roguelike2.Ui.Consoles
             Controls.Add(gameMenuButton);
 
             Children.Add(_playerConsole);
-            Children.Add(memoryConsole);
+            Children.Add(worldStatusConsole);
             Children.Add(equipmentConsole);
             Children.Add(_inventoryConsole);
         }

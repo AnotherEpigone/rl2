@@ -45,14 +45,16 @@ namespace Roguelike2.Ui.Consoles
                 minimapGlyphPosition.X * SadConsole.Game.Instance.DefaultFont.GlyphWidth,
                 minimapGlyphPosition.Y * SadConsole.Game.Instance.DefaultFont.GlyphHeight);
 
-            var empireStatusConsole = new WorldStatusConsole(RightPaneWidth, 4, game)
+
+
+            var memoryConsole = new MemoryConsole(RightPaneWidth, 16, game)
             {
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 15),
             };
 
-            var logConsole = new LogConsole(RightPaneWidth, uiManager.ViewPortHeight - 19)
+            var logConsole = new LogConsole(RightPaneWidth, uiManager.ViewPortHeight - 31)
             {
-                Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 19),
+                Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 31),
             };
             Game.Logger.RegisterEventListener(Logging.LogType.Gameplay, m => logConsole.Add(m));
 
@@ -77,7 +79,7 @@ namespace Roguelike2.Ui.Consoles
 
             Children.Add(Map);
             Children.Add(minimap);
-            Children.Add(empireStatusConsole);
+            Children.Add(memoryConsole);
             Children.Add(logConsole);
             Children.Add(_transientMessageConsole);
             Children.Add(_alertMessageConsole);

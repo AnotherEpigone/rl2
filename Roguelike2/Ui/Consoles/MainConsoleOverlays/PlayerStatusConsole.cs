@@ -14,7 +14,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
         private readonly ProgressBar _madnessBar;
 
         public PlayerStatusConsole(int width)
-            : base(width, 7)
+            : base(width, 12)
         {
             DefaultBackground = ColorHelper.ControlBack;
             UseMouse = false;
