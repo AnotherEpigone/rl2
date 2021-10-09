@@ -15,10 +15,10 @@ namespace Roguelike2.Entities
     }
 
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
-    [JsonConverter(typeof(UnitJsonConverter))]
-    public class Unit : NovaEntity
+    [JsonConverter(typeof(ActorJsonConverter))]
+    public class Actor : NovaEntity
     {
-        public Unit(
+        public Actor(
                 Point position,
                 int glyph,
                 string name,
@@ -26,11 +26,11 @@ namespace Roguelike2.Entities
                 bool transparent,
                 int layer,
                 Guid id,
-                Guid empireId,
+                string factionId,
                 string templateId)
             : base(position, glyph, name, walkable, transparent, layer, id)
         {
-            EmpireId = empireId;
+            FactionId = factionId;
             TemplateId = templateId;
             Selected = false;
 
@@ -39,7 +39,7 @@ namespace Roguelike2.Entities
 
         public event EventHandler StatsChanged;
 
-        public Guid EmpireId { get; }
+        public string FactionId { get; }
         public string TemplateId { get; }
         public bool Selected { get; private set; }
 
@@ -50,8 +50,8 @@ namespace Roguelike2.Entities
             if (!CurrentMap.WalkabilityView[target])
             {
                 // detect combat
-                var targetUnit = CurrentMap.GetEntityAt<Unit>(target);
-                if (targetUnit?.EmpireId != EmpireId)
+                var targetUnit = CurrentMap.GetEntityAt<Actor>(target);
+                if (targetUnit?.FactionId != FactionId)
                 {
                     StatsChanged?.Invoke(this, EventArgs.Empty);
                     return UnitMovementResult.Combat;
@@ -71,6 +71,6 @@ namespace Roguelike2.Entities
             Position = target;
         }
 
-        private string DebuggerDisplay => $"{nameof(Unit)}: {Name}";
+        private string DebuggerDisplay => $"{nameof(Actor)}: {Name}";
     }
 }

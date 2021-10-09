@@ -1,8 +1,8 @@
 ﻿namespace Roguelike2.Entities
 {
-    public class UnitTemplate
+    public class ActorTemplate
     {
-        public UnitTemplate(
+        public ActorTemplate(
             string id,
             string name,
             int glyph)

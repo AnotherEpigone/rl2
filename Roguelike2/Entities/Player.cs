@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Roguelike2.Components;
 using Roguelike2.Fonts;
+using Roguelike2.GameMechanics.Factions;
 using Roguelike2.GameMechanics.Items;
 using Roguelike2.Maps;
 using Roguelike2.Serialization.Entities;
@@ -12,7 +13,7 @@ namespace Roguelike2.Entities
 {
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     [JsonConverter(typeof(PlayerJsonConverter))]
-    public class Player : Unit
+    public class Player : Actor
     {
         public Player(
             Point position)
@@ -24,7 +25,7 @@ namespace Roguelike2.Entities
                   true,
                   (int)MapLayer.ACTORS,
                   Guid.NewGuid(),
-                  Guid.NewGuid(), // TODO Faction ID
+                  FactionAtlas.Player.Id,
                   "Player")
         {
             Moved += Player_Moved;
@@ -52,7 +53,7 @@ namespace Roguelike2.Entities
                   true,
                   (int)MapLayer.ACTORS,
                   Guid.NewGuid(),
-                  Guid.NewGuid(), // TODO Faction ID
+                  FactionAtlas.Player.Id, // TODO Faction ID
                   "Player")
         {
             foreach (var component in serialized.Components)
@@ -61,6 +62,7 @@ namespace Roguelike2.Entities
             }
 
             Inventory = AllComponents.GetFirst<IInventoryComponent>();
+            Equipment = AllComponents.GetFirst<IEquipmentComponent>();
         }
 
         public int FovRadius => 8;

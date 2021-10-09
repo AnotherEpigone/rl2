@@ -24,7 +24,7 @@ namespace Roguelike2.Serialization.Maps
         [DataMember] public int Height;
         [DataMember] public string FontId;
         [DataMember] public Terrain[] Terrain;
-        [DataMember] public Unit[] Units;
+        [DataMember] public Actor[] Units;
 
         public static implicit operator WorldMapSerialized(WorldMap map)
         {
@@ -34,7 +34,7 @@ namespace Roguelike2.Serialization.Maps
                 Height = map.Height,
                 FontId = map.Font.Name,
                 Terrain = map.Terrain.ToEnumerable().Cast<Terrain>().ToArray(),
-                Units = map.Entities.Items.OfType<Unit>().Where(u => u is not Player).ToArray(),
+                Units = map.Entities.Items.OfType<Actor>().Where(u => u is not Player).ToArray(),
             };
         }
 

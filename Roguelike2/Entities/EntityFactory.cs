@@ -6,9 +6,9 @@ namespace Roguelike2.Entities
 {
     public class EntityFactory : IEntityFactory
     {
-        public Unit CreateUnit(Point position, UnitTemplate template, Guid empireId, Color empireColor)
+        public Actor CreateActor(Point position, ActorTemplate template, string factionId)
         {
-            var unit = new Unit(
+            var unit = new Actor(
                 position,
                 template.Glyph,
                 template.Name,
@@ -16,7 +16,7 @@ namespace Roguelike2.Entities
                 true,
                 (int)MapLayer.ACTORS,
                 Guid.NewGuid(),
-                empireId,
+                factionId,
                 template.Id);
 
             return unit;

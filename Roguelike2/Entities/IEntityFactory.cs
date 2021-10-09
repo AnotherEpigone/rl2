@@ -5,7 +5,7 @@ namespace Roguelike2.Entities
 {
     public interface IEntityFactory
     {
-        Unit CreateUnit(Point position, UnitTemplate template, Guid empireId, Color factionColor);
+        Actor CreateActor(Point position, ActorTemplate template, string factionId);
         TerrainFeature CreateTerrainFeature(Point position, TerrainFeatureTemplate template);
     }
 }

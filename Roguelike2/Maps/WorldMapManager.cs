@@ -19,7 +19,7 @@ namespace Roguelike2.Maps
         private readonly IPlayerController _playerController;
         private readonly DungeonMaster _game;
 
-        private Unit _selectedUnit;
+        private Actor _selectedUnit;
         private Point _selectedPoint;
 
         public WorldMapManager(DungeonMaster game, WorldMap map)
@@ -62,7 +62,7 @@ namespace Roguelike2.Maps
             }
         }
 
-        public Unit SelectedUnit
+        public Actor SelectedUnit
         {
             get => _selectedUnit;
             private set

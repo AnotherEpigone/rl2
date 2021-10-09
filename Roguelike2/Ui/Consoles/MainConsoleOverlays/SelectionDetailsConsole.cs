@@ -42,7 +42,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             }
             else if (mapManager.SelectedPoint != Point.None)
             {
-                var unit = map.GetEntityAt<Unit>(mapManager.SelectedPoint);
+                var unit = map.GetEntityAt<Actor>(mapManager.SelectedPoint);
                 if (unit != null)
                 {
                     Cursor.Right(2).Print($"{unit.Name}\r\n", printTemplate, null);

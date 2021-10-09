@@ -9,12 +9,12 @@ namespace Roguelike2.Serialization
     {
         protected override JsonContract CreateContract(Type objectType)
         {
-            if (objectType == typeof(Unit))
+            if (objectType == typeof(Actor))
             {
                 // Can't let the default CreateContract call on Entity or it will throw
                 return new JsonObjectContract(objectType)
                 {
-                    Converter = new UnitJsonConverter()
+                    Converter = new ActorJsonConverter()
                 };
             }
 
