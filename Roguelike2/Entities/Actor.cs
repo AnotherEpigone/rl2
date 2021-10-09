@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Roguelike2.Maps;
 using Roguelike2.Serialization.Entities;
 using SadRogue.Primitives;
 using System;
@@ -18,6 +19,20 @@ namespace Roguelike2.Entities
     [JsonConverter(typeof(ActorJsonConverter))]
     public class Actor : NovaEntity
     {
+        public Actor(Point position, ActorTemplate template)
+            : this(
+                  position,
+                  template.Glyph,
+                  template.Name,
+                  false,
+                  true,
+                  (int)MapLayer.ACTORS,
+                  Guid.NewGuid(),
+                  template.FactionId,
+                  template.Id)
+        {
+        }
+
         public Actor(
                 Point position,
                 int glyph,

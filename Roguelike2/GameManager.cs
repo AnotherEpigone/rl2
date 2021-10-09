@@ -16,7 +16,6 @@ namespace Roguelike2
     internal sealed class GameManager : IGameManager
     {
         private readonly IUiManager _uiManager;
-        private readonly IEntityFactory _entityFactory;
         private readonly ILogger _logger;
         private readonly ISaveManager _saveManager;
 
@@ -24,12 +23,10 @@ namespace Roguelike2
 
         public GameManager(
             IUiManager uiManager,
-            IEntityFactory entityFactory,
             ILogger logger,
             ISaveManager saveManager)
         {
             _uiManager = uiManager;
-            _entityFactory = entityFactory;
             _logger = logger;
             _saveManager = saveManager;
         }
@@ -131,6 +128,14 @@ namespace Roguelike2
                 var swordPosition = map.WalkabilityView.RandomPosition(true, rng);
                 var sword = new ItemEntity(swordPosition, new Item(ItemAtlas.SteelLongsword));
                 map.AddEntity(sword);
+
+                var goblinPosition = map.WalkabilityView.RandomPosition(true, rng);
+                var goblin = new Actor(goblinPosition, ActorAtlas.Goblin);
+                map.AddEntity(goblin);
+
+                var goblinArcherPosition = map.WalkabilityView.RandomPosition(true, rng);
+                var goblinArcher = new Actor(goblinArcherPosition, ActorAtlas.GoblinArcher);
+                map.AddEntity(goblinArcher);
             }
 
             _game = new DungeonMaster(player, _logger);

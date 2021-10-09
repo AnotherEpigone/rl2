@@ -21,9 +21,6 @@ namespace Roguelike2
             builder.RegisterType<GameManager>()
                 .As<IGameManager>()
                 .SingleInstance();
-            builder.RegisterType<EntityFactory>()
-                .As<IEntityFactory>()
-                .SingleInstance();
             builder.RegisterType<SaveManager>()
                 .As<ISaveManager>()
                 .SingleInstance();

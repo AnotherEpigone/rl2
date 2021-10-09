@@ -1,5 +1,4 @@
 ﻿using GoRogue.MapGeneration;
-using Roguelike2.Entities;
 using Roguelike2.Maps.Generation.Steps;
 using SadConsole;
 using SadRogue.Primitives;
@@ -15,8 +14,7 @@ namespace Roguelike2.Maps.Generation
             MapGenerationSettings settings,
             IFont tilesetFont,
             Point viewportSize,
-            IGenerator rng,
-            IEntityFactory entityFactory)
+            IGenerator rng)
         {
             var tileCount = settings.Width * settings.Height;
             var landmassIterations = (int)((settings.Width + settings.Height) * 1.5);
