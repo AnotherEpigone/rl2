@@ -17,6 +17,7 @@ namespace Roguelike2.Ui.Consoles
         private readonly TransientMessageConsole _transientMessageConsole;
         private readonly AlertMessageConsole _alertMessageConsole;
         private readonly MainConsoleLeftPane _leftPane;
+        private readonly MapOverlayConsole _mapOverlay;
 
         public MainConsole(
             IGameManager gameManager,
@@ -77,13 +78,15 @@ namespace Roguelike2.Ui.Consoles
 
             Map.Position = new Point(LeftPaneWidth * _leftPane.Font.GlyphWidth, 0);
 
-            var mapOverlay = new MapOverlayConsole(Map.Width, Map.Height, Map.Font, Map)
+            _mapOverlay = new MapOverlayConsole(Map.Width, Map.Height, Map.Font, Map, game)
             {
                 Position = Map.Position / Map.Font.GetFontSize(IFont.Sizes.One),
             };
 
+            game.Player.Moved += Player_Moved;
+
             Children.Add(Map);
-            Children.Add(mapOverlay);
+            Children.Add(_mapOverlay);
             Children.Add(minimap);
             Children.Add(memoryConsole);
             Children.Add(logConsole);
@@ -128,6 +131,11 @@ namespace Roguelike2.Ui.Consoles
             }
 
             return base.ProcessKeyboard(info);
+        }
+
+        private void Player_Moved(object sender, GoRogue.GameFramework.GameObjectPropertyChanged<Point> e)
+        {
+            _mapOverlay.Clear();
         }
     }
 }

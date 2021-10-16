@@ -1,4 +1,5 @@
-﻿using Roguelike2.Fonts;
+﻿using GoRogue.Pathing;
+using Roguelike2.Fonts;
 using SadConsole;
 using SadConsole.Input;
 using SadRogue.Primitives;
@@ -9,15 +10,22 @@ namespace Roguelike2.Maps
     public class MapOverlayConsole : Console
     {
         private readonly WorldMap _map;
+        private readonly DungeonMaster _dm;
         private Point _cellPosition;
 
-        public MapOverlayConsole(int width, int height, IFont font, WorldMap map)
+        public MapOverlayConsole(
+            int width,
+            int height,
+            IFont font,
+            WorldMap map,
+            DungeonMaster dm)
             : base(width, height)
         {
             UseMouse = true;
             FocusOnMouseClick = false;
             Font = font;
             _map = map;
+            _dm = dm;
         }
 
         public override bool ProcessMouse(MouseScreenObjectState state)
@@ -38,13 +46,25 @@ namespace Roguelike2.Maps
                 return true;
             }
 
-            var mapPosition = _cellPosition + _map.DefaultRenderer.Surface.View.Position;
+            var mapOffset = _map.DefaultRenderer.Surface.View.Position;
+            var mapPosition = _cellPosition + mapOffset;
+            if (_dm.Player.Position == mapPosition)
+            {
+                DrawHighlight(_cellPosition);
+                return true;
+            }
+
             if (!_map.PlayerFOV.CurrentFOV.Contains(mapPosition))
             {
                 return true;
             }
 
-            DrawHighlight(_cellPosition);
+            var path = _map.AStar.ShortestPath(_dm.Player.Position, mapPosition);
+            foreach (var step in path.Steps)
+            {
+                DrawHighlight(step - mapOffset);
+            }
+            
             return true;
         }
 
