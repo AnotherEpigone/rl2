@@ -19,9 +19,13 @@ namespace Roguelike2.Maps
         public event EventHandler<MouseScreenObjectState> RightMouseClick;
         public event EventHandler<MouseScreenObjectState> RightMouseButtonDown;
 
+        public Point MouseCellPosition { get; set; }
+
         public override bool ProcessMouse(MouseScreenObjectState state)
         {
             state = new MouseScreenObjectState(this, state.Mouse);
+            MouseCellPosition = state.IsOnScreenObject ? state.SurfaceCellPosition : Point.None;
+
             if (state.Mouse.RightButtonDown)
             {
                 RightMouseButtonDown?.Invoke(this, state);

@@ -77,7 +77,13 @@ namespace Roguelike2.Ui.Consoles
 
             Map.Position = new Point(LeftPaneWidth * _leftPane.Font.GlyphWidth, 0);
 
+            var mapOverlay = new MapOverlayConsole(Map.Width, Map.Height, Map.Font, Map)
+            {
+                Position = Map.Position / Map.Font.GetFontSize(IFont.Sizes.One),
+            };
+
             Children.Add(Map);
+            Children.Add(mapOverlay);
             Children.Add(minimap);
             Children.Add(memoryConsole);
             Children.Add(logConsole);

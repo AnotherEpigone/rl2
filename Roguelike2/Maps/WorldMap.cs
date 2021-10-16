@@ -24,6 +24,8 @@ namespace Roguelike2.Maps
     [JsonConverter(typeof(WorldMapJsonConverter))]
     public class WorldMap : RogueLikeMap
     {
+        private readonly WorldMapRenderer _renderer;
+
         public WorldMap(int width, int height, IFont font)
             : base(
                   width,
@@ -35,15 +37,18 @@ namespace Roguelike2.Maps
         {
             Font = font;
 
-            DefaultRenderer = CreateRenderer(CreateWorldMapRenderer, new Point(width, height), font, font.GetFontSize(IFont.Sizes.One));
+            _renderer = (WorldMapRenderer)CreateRenderer(CreateWorldMapRenderer, new Point(width, height), font, font.GetFontSize(IFont.Sizes.One));
+            DefaultRenderer = _renderer;
         }
 
-        public event EventHandler<MouseScreenObjectState> RightMouseButtonDown;
+        public event EventHandler<MouseScreenObjectState> RightMouseClick;
         public event EventHandler<MouseScreenObjectState> LeftMouseClick;
 
         private string DebuggerDisplay => string.Format($"{nameof(WorldMap)} ({Width}, {Height})");
 
         public IFont Font { get; }
+
+        public Point MouseCellPosition => _renderer.MouseCellPosition;
 
         public IScreenSurface CreateMinimapRenderer(int pixelWidth, int pixelHeight, IFont pixelFont)
         {
@@ -58,7 +63,7 @@ namespace Roguelike2.Maps
         {
             var renderer = new WorldMapRenderer(surface, font, fontSize.Value);
             renderer.LeftMouseClick += (s, e) => LeftMouseClick?.Invoke(s, e);
-            renderer.RightMouseButtonDown += (s, e) => RightMouseButtonDown?.Invoke(s, e);
+            renderer.RightMouseClick += (s, e) => RightMouseClick?.Invoke(s, e);
             renderer.UseMouse = true;
             return renderer;
         }

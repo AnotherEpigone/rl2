@@ -33,7 +33,7 @@ namespace Roguelike2.Maps
             WorldMap map)
         {
             _map = map;
-            _map.RightMouseButtonDown += Map_RightMouseButtonDown;
+            _map.RightMouseClick += Map_RightMouseButtonDown;
             _map.LeftMouseClick += Map_LeftMouseClick;
 
             _aStar = new AStar(
