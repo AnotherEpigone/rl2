@@ -82,11 +82,16 @@ namespace Roguelike2.Maps
             }
         }
 
+        public void CenterOnPlayer()
+        {
+            _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_game.Player.Position);
+        }
+
         public bool HandleKeyboard(Keyboard keyboard)
         {
             if (keyboard.IsKeyPressed(Keys.C))
             {
-                _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_game.Player.Position);
+                CenterOnPlayer();
                 return true;
             }
 

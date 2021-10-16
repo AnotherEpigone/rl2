@@ -135,5 +135,17 @@ namespace Roguelike2.Ui.Windows
 
             return base.ProcessKeyboard(info);
         }
+
+        public override bool ProcessMouse(MouseScreenObjectState state)
+        {
+            if (_debounced
+                && !state.IsOnScreenObject
+                && state.Mouse.LeftClicked)
+            {
+                Hide();
+            }
+
+            return base.ProcessMouse(state);
+        }
     }
 }

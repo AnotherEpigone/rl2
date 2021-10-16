@@ -71,9 +71,9 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
                     };
                     itemButton.Click += (_, __) =>
                     {
-                        var detailWindow = new ItemDetailsWindow(Width, Height + 2, item, _dm, true)
+                        var detailWindow = new ItemDetailsWindow(Width, Height, item, _dm, true)
                         {
-                            Position = new Point(Width + 2, Position.Y),
+                            Position = new Point(Width, Position.Y),
                         };
                         detailWindow.Show(true);
                     };

@@ -86,6 +86,8 @@ namespace Roguelike2
             colors.ControlHostForeground = new AdjustableColor(ColorHelper.Text, "Control Host Foreground", colors);
             colors.ControlHostBackground = new AdjustableColor(ColorHelper.ControlBack, "Control Host Background", colors);
 
+            colors.ModalBackground = new SadRogue.Primitives.Color(20, 20, 20, 100);
+
             colors.RebuildAppearances();
         }
 

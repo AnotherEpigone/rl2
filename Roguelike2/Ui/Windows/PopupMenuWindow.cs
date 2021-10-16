@@ -7,7 +7,7 @@ namespace Roguelike2.Ui.Windows
 {
     public class PopupMenuWindow : NovaControlWindow
     {
-        private bool _escReleased;
+        private bool _debounced;
 
         public PopupMenuWindow(IUiManager uiManager, IGameManager gameManager)
             : base(36, 13)
@@ -89,17 +89,29 @@ namespace Roguelike2.Ui.Windows
         {
             if (!info.IsKeyPressed(Keys.Escape))
             {
-                _escReleased = true;
+                _debounced = true;
                 return base.ProcessKeyboard(info);
             }
 
-            if (_escReleased)
+            if (_debounced)
             {
                 Hide();
                 return true;
             }
 
             return base.ProcessKeyboard(info);
+        }
+
+        public override bool ProcessMouse(MouseScreenObjectState state)
+        {
+            if (_debounced
+                && !state.IsOnScreenObject
+                && state.Mouse.LeftClicked)
+            {
+                Hide();
+            }
+
+            return base.ProcessMouse(state);
         }
     }
 }

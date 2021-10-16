@@ -62,6 +62,7 @@ namespace Roguelike2
             Game.Instance.Screen.IsFocused = true;
 
             gameState.Player.CalculateFov();
+            mapManager.CenterOnPlayer();
         }
 
         public void LoadLatest()
@@ -93,14 +94,14 @@ namespace Roguelike2
 
             var rng = new StandardGenerator();
 
-            var generator = new Generator(40, 40)
+            var generator = new Generator(100, 100)
                 .ConfigAndGenerateSafe(gen =>
                 {
                     gen.AddSteps(DefaultAlgorithms.RectangleMapSteps());
                 });
 
             var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
-            var map = new WorldMap(40, 40, tilesetFont);
+            var map = new WorldMap(100, 100, tilesetFont);
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
             map.AllComponents.Add(new PlayerFieldOfViewHandler());
@@ -115,7 +116,7 @@ namespace Roguelike2
             var player = new Player(playerPosition);
             map.AddEntity(player);
 
-            for ( int i = 0; i < 10; i++)
+            for ( int i = 0; i < 25; i++)
             {
                 var staffPosition = map.WalkabilityView.RandomPosition(true, rng);
                 var staff = new ItemEntity(staffPosition, new Item(ItemAtlas.StarterOakStaff));
@@ -148,6 +149,7 @@ namespace Roguelike2
 
             _logger.Gameplay("You wake up in a trash heap.");
             player.CalculateFov();
+            mapManager.CenterOnPlayer();
         }
 
         private Point GetMapViewport()
