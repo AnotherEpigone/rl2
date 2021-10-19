@@ -14,7 +14,8 @@ namespace Roguelike2.Maps
 
         private readonly WorldMap _map;
         private readonly DungeonMaster _dm;
-
+        private readonly int _rightPaneWidth;
+        private readonly int _bottomRightPaneHeight;
         private Point _cellPosition;
 
         public MapOverlayConsole(
@@ -22,7 +23,9 @@ namespace Roguelike2.Maps
             int height,
             IFont font,
             WorldMap map,
-            DungeonMaster dm)
+            DungeonMaster dm,
+            int rightPaneWidth,
+            int bottomRightPaneHeight)
             : base(width, height)
         {
             UseMouse = true;
@@ -30,6 +33,8 @@ namespace Roguelike2.Maps
             Font = font;
             _map = map;
             _dm = dm;
+            _rightPaneWidth = rightPaneWidth;
+            _bottomRightPaneHeight = bottomRightPaneHeight;
         }
 
         public override bool ProcessMouse(MouseScreenObjectState state)
@@ -68,8 +73,10 @@ namespace Roguelike2.Maps
             var mapOffset = _map.DefaultRenderer.Surface.View.Position;
             var mapPosition = _cellPosition + mapOffset;
 
-            var tileDetailsWindow = new TileDetailsWindow(40, _map.DefaultRenderer.Surface.View.Height, mapPosition, _map, _dm);
-            tileDetailsWindow.Position = new Point((_map.Position.X + _map.DefaultRenderer.WidthPixels) / tileDetailsWindow.Font.GlyphWidth - tileDetailsWindow.Width, 0);
+            var tileDetailsWindow = new TileDetailsWindow(_rightPaneWidth, _bottomRightPaneHeight, mapPosition, _map, _dm);
+            tileDetailsWindow.Position = new Point(
+                (_map.Position.X + _map.DefaultRenderer.WidthPixels) / tileDetailsWindow.Font.GlyphWidth,
+                _map.DefaultRenderer.Surface.View.Height - _bottomRightPaneHeight);
             tileDetailsWindow.Closed += (_, __) => Clear();
 
             tileDetailsWindow.Show(true);

@@ -78,7 +78,14 @@ namespace Roguelike2.Ui.Consoles
 
             Map.Position = new Point(LeftPaneWidth * _leftPane.Font.GlyphWidth, 0);
 
-            _mapOverlay = new MapOverlayConsole(Map.Width, Map.Height, Map.Font, Map, game)
+            _mapOverlay = new MapOverlayConsole(
+                Map.Width,
+                Map.Height,
+                Map.Font,
+                Map,
+                game,
+                RightPaneWidth,
+                uiManager.ViewPortHeight - (minimap.HeightPixels / SadConsole.Game.Instance.DefaultFont.GlyphHeight))
             {
                 Position = Map.Position / Map.Font.GetFontSize(IFont.Sizes.One),
             };
