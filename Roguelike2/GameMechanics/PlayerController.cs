@@ -1,57 +1,75 @@
-﻿using SadConsole.Input;
+﻿using Roguelike2.GameMechanics.Time;
+using SadConsole.Input;
 using SadRogue.Primitives;
 
 namespace Roguelike2.GameMechanics
 {
     public sealed class PlayerController : IPlayerController
     {
-        public bool HandleKeyboard(DungeonMaster game, Keyboard keyboard)
+        private readonly DungeonMaster _dm;
+        private readonly TurnManager _turnManager;
+
+        public PlayerController(DungeonMaster dm, TurnManager turnManager)
+        {
+            _dm = dm;
+            _turnManager = turnManager;
+        }
+
+        public bool HandleKeyboard(Keyboard keyboard)
         {
             if (keyboard.IsKeyPressed(Keys.Down) || keyboard.IsKeyPressed(Keys.NumPad2))
             {
-                HandlePlayerMovement(game, Direction.Down);
+                HandlePlayerMovement(_dm, Direction.Down);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Up) || keyboard.IsKeyPressed(Keys.NumPad8))
             {
-                HandlePlayerMovement(game, Direction.Up);
+                HandlePlayerMovement(_dm, Direction.Up);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Right) || keyboard.IsKeyPressed(Keys.NumPad6))
             {
-                HandlePlayerMovement(game, Direction.Right);
+                HandlePlayerMovement(_dm, Direction.Right);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.Left) || keyboard.IsKeyPressed(Keys.NumPad4))
             {
-                HandlePlayerMovement(game, Direction.Left);
+                HandlePlayerMovement(_dm, Direction.Left);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.NumPad7))
             {
-                HandlePlayerMovement(game, Direction.UpLeft);
+                HandlePlayerMovement(_dm, Direction.UpLeft);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.NumPad9))
             {
-                HandlePlayerMovement(game, Direction.UpRight);
+                HandlePlayerMovement(_dm, Direction.UpRight);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.NumPad3))
             {
-                HandlePlayerMovement(game, Direction.DownRight);
+                HandlePlayerMovement(_dm, Direction.DownRight);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 
             if (keyboard.IsKeyPressed(Keys.NumPad1))
             {
-                HandlePlayerMovement(game, Direction.DownLeft);
+                HandlePlayerMovement(_dm, Direction.DownLeft);
+                _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
                 return true;
             }
 

@@ -5,16 +5,17 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 {
     public class WorldStatusConsole : Console
     {
-        private readonly DungeonMaster _game;
+        private readonly DungeonMaster _dm;
 
         public WorldStatusConsole(int width, int height, DungeonMaster game)
             : base(width, height)
         {
-            _game = game;
+            _dm = game;
 
             DefaultBackground = ColorHelper.ControlBack;
-
             UseMouse = false;
+
+            _dm.TimeMaster.TimeUpdated += TimeMaster_TimeUpdated;
 
             Refresh();
         }
@@ -27,8 +28,9 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
 
             var printTemplate = new ColoredGlyph(ColorHelper.Text, ColorHelper.ControlBack);
             Cursor.Right(2).Print($"Depth -4 (The Midden)\r\n", printTemplate, null);
-            Cursor.Right(2).Print($"Time 0", printTemplate, null); // TODO time from TimeManager
+            Cursor.Right(2).Print($"Time {_dm.TimeMaster.JourneyTime.Seconds}", printTemplate, null);
         }
+
         private void DrawOutline()
         {
             Surface.DrawBox(
@@ -40,6 +42,11 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             Cursor.Position = new Point((Width - title.Length) / 2, 0);
             var coloredTitle = new ColoredString(title, DefaultForeground, DefaultBackground);
             Cursor.Print(coloredTitle);
+        }
+
+        private void TimeMaster_TimeUpdated(object sender, GameMechanics.Time.McTimeSpan e)
+        {
+            Refresh();
         }
     }
 }

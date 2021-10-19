@@ -1,4 +1,5 @@
 ﻿using Roguelike2.Entities;
+using Roguelike2.GameMechanics.Time;
 using Roguelike2.Maps;
 using System.Runtime.Serialization;
 
@@ -12,5 +13,8 @@ namespace Roguelike2.Serialization
 
         [DataMember]
         public Player Player { get; set; }
+
+        [DataMember]
+        public ITimeMaster TimeMaster { get; set; }
     }
 }

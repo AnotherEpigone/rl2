@@ -32,7 +32,7 @@ namespace Roguelike2.Ui.Consoles
             _mapManager = mapManager;
 
             Map = map;
-            Game = game;
+            Dm = game;
 
             UseMouse = false;
             UseKeyboard = true;
@@ -57,7 +57,7 @@ namespace Roguelike2.Ui.Consoles
             {
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 31),
             };
-            Game.Logger.RegisterEventListener(Logging.LogType.Gameplay, m => logConsole.Add(m));
+            Dm.Logger.RegisterEventListener(Logging.LogType.Gameplay, m => logConsole.Add(m));
 
             _transientMessageConsole = new TransientMessageConsole(60)
             {
@@ -74,7 +74,7 @@ namespace Roguelike2.Ui.Consoles
                 uiManager.ViewPortHeight,
                 uiManager,
                 gameManager,
-                Game);
+                Dm);
 
             Map.Position = new Point(LeftPaneWidth * _leftPane.Font.GlyphWidth, 0);
 
@@ -113,7 +113,7 @@ namespace Roguelike2.Ui.Consoles
 
         public WorldMap Map { get; }
 
-        public DungeonMaster Game { get; }
+        public DungeonMaster Dm { get; }
 
         private string DebuggerDisplay => string.Format($"{nameof(MainConsole)} ({Position.X}, {Position.Y})");
 
@@ -121,7 +121,7 @@ namespace Roguelike2.Ui.Consoles
         {
             base.Update(delta);
             _mapManager.Update();
-            _leftPane.Update(Game);
+            _leftPane.Update(Dm);
         }
 
         public override bool ProcessKeyboard(Keyboard info)

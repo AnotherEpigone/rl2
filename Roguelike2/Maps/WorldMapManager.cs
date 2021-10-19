@@ -17,15 +17,10 @@ namespace Roguelike2.Maps
         private readonly WorldMap _map;
         private readonly AStar _aStar;
         private readonly IPlayerController _playerController;
-        private readonly DungeonMaster _game;
+        private readonly DungeonMaster _dm;
 
         private Actor _selectedUnit;
         private Point _selectedPoint;
-
-        public WorldMapManager(DungeonMaster game, WorldMap map)
-            : this(new PlayerController(), game, map)
-        {
-        }
 
         public WorldMapManager(
             IPlayerController playerController,
@@ -36,6 +31,7 @@ namespace Roguelike2.Maps
             _map.RightMouseClick += Map_RightMouseButtonDown;
             _map.LeftMouseClick += Map_LeftMouseClick;
 
+            // TODO use the terrain-cost astar?
             _aStar = new AStar(
                 _map.WalkabilityView,
                 Distance.Chebyshev,
@@ -45,8 +41,8 @@ namespace Roguelike2.Maps
                     p => (double)GetMovementCost(p) + 1d),
                     1d);
             _playerController = playerController;
-            _game = game;
-            _game.Player.Moved += Player_Moved;
+            _dm = game;
+            _dm.Player.Moved += Player_Moved;
         }
 
         public event EventHandler SelectionChanged;
@@ -84,7 +80,7 @@ namespace Roguelike2.Maps
 
         public void CenterOnPlayer()
         {
-            _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_game.Player.Position);
+            _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_dm.Player.Position);
         }
 
         public bool HandleKeyboard(Keyboard keyboard)
@@ -101,7 +97,7 @@ namespace Roguelike2.Maps
                 return true;
             }
 
-            if (_playerController.HandleKeyboard(_game, keyboard))
+            if (_playerController.HandleKeyboard(keyboard))
             {
                 return true;
             }
@@ -141,39 +137,39 @@ namespace Roguelike2.Maps
 
         private bool PickupItem()
         {
-            var itemEntity = _map.GetEntityAt<ItemEntity>(_game.Player.Position);
+            var itemEntity = _map.GetEntityAt<ItemEntity>(_dm.Player.Position);
             if (itemEntity == null)
             {
                 return false;
             }
 
-            if (_game.Player.Inventory.IsFilled)
+            if (_dm.Player.Inventory.IsFilled)
             {
-                _game.Logger.Gameplay($"Can't pick up {itemEntity.Name}. Inventory is full.");
+                _dm.Logger.Gameplay($"Can't pick up {itemEntity.Name}. Inventory is full.");
                 return false;
             }
 
             _map.RemoveEntity(itemEntity);
-            _game.Player.Inventory.AddItem(itemEntity.Item, _game);
-            _game.Logger.Gameplay($"Picked up {itemEntity.Name}.");
+            _dm.Player.Inventory.AddItem(itemEntity.Item, _dm);
+            _dm.Logger.Gameplay($"Picked up {itemEntity.Name}.");
             return true;
         }
 
         private bool ItemStackInteract()
         {
-            var itemStackEntity = _map.GetEntityAt<ItemStackEntity>(_game.Player.Position);
+            var itemStackEntity = _map.GetEntityAt<ItemStackEntity>(_dm.Player.Position);
             if (itemStackEntity == null)
             {
                 return false;
             }
 
-            if (_game.Player.Inventory.IsFilled)
+            if (_dm.Player.Inventory.IsFilled)
             {
-                _game.Logger.Gameplay($"Can't take anything from an item stack. Inventory is full.");
+                _dm.Logger.Gameplay($"Can't take anything from an item stack. Inventory is full.");
                 return false;
             }
 
-            var itemStackWindow = new ItemStackInteractWindow(itemStackEntity, _game);
+            var itemStackWindow = new ItemStackInteractWindow(itemStackEntity, _dm);
             itemStackWindow.Position = _map.Position / itemStackWindow.FontSize;
             itemStackWindow.Show(true);
             return true;
@@ -185,7 +181,7 @@ namespace Roguelike2.Maps
 
         private void Map_LeftMouseClick(object sender, MouseScreenObjectState e)
         {
-            if (e.CellPosition == _game.Player.Position)
+            if (e.CellPosition == _dm.Player.Position)
             {
                 InteractSelf();
             }
@@ -193,7 +189,7 @@ namespace Roguelike2.Maps
 
         private void Player_Moved(object sender, GoRogue.GameFramework.GameObjectPropertyChanged<Point> e)
         {
-            _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_game.Player.Position);
+            _map.DefaultRenderer.Surface.View = _map.DefaultRenderer.Surface.View.WithCenter(_dm.Player.Position);
         }
     }
 }
