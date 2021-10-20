@@ -1,4 +1,5 @@
-﻿using SadConsole;
+﻿using Roguelike2.GameMechanics.Time;
+using SadConsole;
 using SadRogue.Primitives;
 
 namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
@@ -7,7 +8,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
     {
         private readonly DungeonMaster _dm;
 
-        public InventoryConsole(int width, int height, DungeonMaster dm)
+        public InventoryConsole(int width, int height, DungeonMaster dm, TurnManager turnManager)
             : base(width, height)
         {
             DefaultBackground = ColorHelper.ControlBack;
@@ -19,7 +20,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             this.Fill(background: ColorHelper.ControlBack);
             DrawOutline();
 
-            var controlsConsole = new InventoryControlsConsole(width - 2, height - 2, dm)
+            var controlsConsole = new InventoryControlsConsole(width - 2, height - 2, dm, turnManager)
             {
                 Position = new Point(1, 1)
             };

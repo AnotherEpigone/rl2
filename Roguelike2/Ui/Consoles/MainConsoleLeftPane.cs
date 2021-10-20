@@ -1,4 +1,5 @@
-﻿using Roguelike2.Ui.Consoles.MainConsoleOverlays;
+﻿using Roguelike2.GameMechanics.Time;
+using Roguelike2.Ui.Consoles.MainConsoleOverlays;
 using SadConsole.UI.Controls;
 using SadRogue.Primitives;
 
@@ -14,7 +15,8 @@ namespace Roguelike2.Ui.Consoles
             int height,
             IUiManager uiManager,
             IGameManager gameManager,
-            DungeonMaster dm)
+            DungeonMaster dm,
+            TurnManager turnManager)
             : base(width, height)
         {
             FocusOnMouseClick = false;
@@ -45,12 +47,12 @@ namespace Roguelike2.Ui.Consoles
                 Position = new Point(0, worldStatusConsole.Height + 1),
             };
 
-            var equipmentConsole = new EquipmentConsole(width, 23, dm)
+            var equipmentConsole = new EquipmentConsole(width, 23, dm, turnManager)
             {
                 Position = new Point(0, _playerConsole.Position.Y + _playerConsole.Height),
             };
 
-            _inventoryConsole = new InventoryConsole(width, 16, dm)
+            _inventoryConsole = new InventoryConsole(width, 16, dm, turnManager)
             {
                 Position = new Point(0, equipmentConsole.Position.Y + equipmentConsole.Height),
             };

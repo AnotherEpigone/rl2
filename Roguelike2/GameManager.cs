@@ -59,9 +59,9 @@ namespace Roguelike2
 
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
-            var mapManager = new WorldMapManager(playerController, _dm, map);
+            var mapManager = new WorldMapManager(playerController, _dm, turnManager, map);
 
-            Game.Instance.Screen = _uiManager.CreateMapScreen(this, gameState.Map, mapManager, _dm);
+            Game.Instance.Screen = _uiManager.CreateMapScreen(this, gameState.Map, mapManager, _dm, turnManager);
             Game.Instance.DestroyDefaultStartingConsole();
             Game.Instance.Screen.IsFocused = true;
 
@@ -147,9 +147,9 @@ namespace Roguelike2
             _dm = new DungeonMaster(player, _logger, new TimeMaster());
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
-            var mapManager = new WorldMapManager(playerController, _dm, map);
+            var mapManager = new WorldMapManager(playerController, _dm, turnManager, map);
 
-            Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, _dm);
+            Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, _dm, turnManager);
             Game.Instance.DestroyDefaultStartingConsole();
             Game.Instance.Screen.IsFocused = true;
 

@@ -1,6 +1,7 @@
 ﻿using GoRogue.Pathing;
 using Roguelike2.Entities;
 using Roguelike2.GameMechanics;
+using Roguelike2.GameMechanics.Time;
 using Roguelike2.Ui.Windows;
 using SadConsole.Input;
 using SadRogue.Primitives;
@@ -18,13 +19,14 @@ namespace Roguelike2.Maps
         private readonly AStar _aStar;
         private readonly IPlayerController _playerController;
         private readonly DungeonMaster _dm;
-
+        private readonly TurnManager _turnManager;
         private Actor _selectedUnit;
         private Point _selectedPoint;
 
         public WorldMapManager(
             IPlayerController playerController,
-            DungeonMaster game,
+            DungeonMaster dm,
+            TurnManager turnManager,
             WorldMap map)
         {
             _map = map;
@@ -41,7 +43,9 @@ namespace Roguelike2.Maps
                     p => (double)GetMovementCost(p) + 1d),
                     1d);
             _playerController = playerController;
-            _dm = game;
+            _dm = dm;
+            _turnManager = turnManager;
+
             _dm.Player.Moved += Player_Moved;
         }
 
@@ -152,6 +156,9 @@ namespace Roguelike2.Maps
             _map.RemoveEntity(itemEntity);
             _dm.Player.Inventory.AddItem(itemEntity.Item, _dm);
             _dm.Logger.Gameplay($"Picked up {itemEntity.Name}.");
+
+            _turnManager.PostProcessPlayerTurn(TimeHelper.Interact);
+
             return true;
         }
 
@@ -169,7 +176,7 @@ namespace Roguelike2.Maps
                 return false;
             }
 
-            var itemStackWindow = new ItemStackInteractWindow(itemStackEntity, _dm);
+            var itemStackWindow = new ItemStackInteractWindow(itemStackEntity, _dm, _turnManager);
             itemStackWindow.Position = _map.Position / itemStackWindow.FontSize;
             itemStackWindow.Show(true);
             return true;

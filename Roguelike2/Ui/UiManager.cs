@@ -1,4 +1,5 @@
-﻿using Roguelike2.Maps;
+﻿using Roguelike2.GameMechanics.Time;
+using Roguelike2.Maps;
 using Roguelike2.Serialization.Settings;
 using Roguelike2.Ui.Consoles;
 using Roguelike2.Ui.Windows;
@@ -25,9 +26,9 @@ namespace Roguelike2.Ui
         public string MiniMapFontPath { get; } = "Fonts\\minimap.font";
         public string MiniMapFontName { get; } = "Minimap";
 
-        public MainConsole CreateMapScreen(IGameManager gameManager, WorldMap map, WorldMapManager mapManager, DungeonMaster game)
+        public MainConsole CreateMapScreen(IGameManager gameManager, WorldMap map, WorldMapManager mapManager, DungeonMaster dm, TurnManager turnManager)
         {
-            return new MainConsole(gameManager, this, map, mapManager, game, _appSettings.Debug);
+            return new MainConsole(gameManager, this, map, mapManager, dm, turnManager, _appSettings.Debug);
         }
 
         public PopupMenuWindow CreatePopupMenu(IGameManager gameManager)

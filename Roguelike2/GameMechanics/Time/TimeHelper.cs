@@ -10,6 +10,8 @@ namespace Roguelike2.GameMechanics.Time
         public const int Wait = 100;
         public const int Attack = 200;
         public const int Interact = 50;
+        public const int Unequip = 50;
+        public const int Equip = 100;
 
         public static float GetWalkSpeed(NovaEntity entity)
         {

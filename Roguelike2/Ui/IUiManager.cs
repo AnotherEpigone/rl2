@@ -1,4 +1,5 @@
-﻿using Roguelike2.Maps;
+﻿using Roguelike2.GameMechanics.Time;
+using Roguelike2.Maps;
 using Roguelike2.Ui.Consoles;
 using Roguelike2.Ui.Windows;
 using SadRogue.Primitives;
@@ -22,7 +23,8 @@ namespace Roguelike2.Ui
             IGameManager gameManager,
             WorldMap map,
             WorldMapManager mapManager,
-            DungeonMaster game);
+            DungeonMaster game,
+            TurnManager turnManager);
 
         void ToggleFullScreen();
 

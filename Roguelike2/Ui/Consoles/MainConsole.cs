@@ -1,4 +1,5 @@
-﻿using Roguelike2.Maps;
+﻿using Roguelike2.GameMechanics.Time;
+using Roguelike2.Maps;
 using Roguelike2.Ui.Consoles.MainConsoleOverlays;
 using SadConsole;
 using SadConsole.Input;
@@ -24,7 +25,8 @@ namespace Roguelike2.Ui.Consoles
             IUiManager uiManager,
             WorldMap map,
             WorldMapManager mapManager,
-            DungeonMaster game,
+            DungeonMaster dm,
+            TurnManager turnManager,
             bool debug)
         {
             _gameManager = gameManager;
@@ -32,8 +34,9 @@ namespace Roguelike2.Ui.Consoles
             _mapManager = mapManager;
 
             Map = map;
-            Dm = game;
-
+            Dm = dm;
+            TurnManager = turnManager;
+            Debug = debug;
             UseMouse = false;
             UseKeyboard = true;
 
@@ -48,7 +51,7 @@ namespace Roguelike2.Ui.Consoles
 
 
 
-            var memoryConsole = new MemoryConsole(RightPaneWidth, 16, game)
+            var memoryConsole = new MemoryConsole(RightPaneWidth, 16, dm)
             {
                 Position = new Point(uiManager.ViewPortWidth - RightPaneWidth, 15),
             };
@@ -74,7 +77,8 @@ namespace Roguelike2.Ui.Consoles
                 uiManager.ViewPortHeight,
                 uiManager,
                 gameManager,
-                Dm);
+                Dm,
+                TurnManager);
 
             Map.Position = new Point(LeftPaneWidth * _leftPane.Font.GlyphWidth, 0);
 
@@ -83,14 +87,14 @@ namespace Roguelike2.Ui.Consoles
                 Map.Height,
                 Map.Font,
                 Map,
-                game,
+                dm,
                 RightPaneWidth,
                 uiManager.ViewPortHeight - (minimap.HeightPixels / SadConsole.Game.Instance.DefaultFont.GlyphHeight))
             {
                 Position = Map.Position / Map.Font.GetFontSize(IFont.Sizes.One),
             };
 
-            game.Player.Moved += Player_Moved;
+            dm.Player.Moved += Player_Moved;
 
             Children.Add(Map);
             Children.Add(_mapOverlay);
@@ -114,6 +118,8 @@ namespace Roguelike2.Ui.Consoles
         public WorldMap Map { get; }
 
         public DungeonMaster Dm { get; }
+        public TurnManager TurnManager { get; }
+        public bool Debug { get; }
 
         private string DebuggerDisplay => string.Format($"{nameof(MainConsole)} ({Position.X}, {Position.Y})");
 

@@ -1,4 +1,5 @@
-﻿using Roguelike2.Ui.Windows;
+﻿using Roguelike2.GameMechanics.Time;
+using Roguelike2.Ui.Windows;
 using SadConsole;
 using SadConsole.UI;
 using SadConsole.UI.Controls;
@@ -10,9 +11,10 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
     public class EquipmentConsole : Console
     {
         private readonly DungeonMaster _dm;
+        private readonly TurnManager _turnManager;
         private readonly NovaControlsConsole _buttonConsole;
 
-        public EquipmentConsole(int width, int height, DungeonMaster dm)
+        public EquipmentConsole(int width, int height, DungeonMaster dm, TurnManager turnManager)
             : base(width, height)
         {
             DefaultBackground = ColorHelper.ControlBack;
@@ -20,7 +22,8 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
             FocusOnMouseClick = false;
 
             _dm = dm;
-
+            _turnManager = turnManager;
+            
             _buttonConsole = new NovaControlsConsole(width - 2, height - 2)
             {
                 FocusOnMouseClick = false,
@@ -71,7 +74,7 @@ namespace Roguelike2.Ui.Consoles.MainConsoleOverlays
                     };
                     itemButton.Click += (_, __) =>
                     {
-                        var detailWindow = new ItemDetailsWindow(Width, Height, item, _dm, true)
+                        var detailWindow = new ItemDetailsWindow(Width, Height, item, _dm, _turnManager, true)
                         {
                             Position = new Point(Width, Position.Y),
                         };

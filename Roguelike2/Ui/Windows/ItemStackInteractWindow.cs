@@ -1,5 +1,6 @@
 ﻿using Roguelike2.Entities;
 using Roguelike2.GameMechanics.Items;
+using Roguelike2.GameMechanics.Time;
 using Roguelike2.Text;
 using Roguelike2.Ui.Controls;
 using SadConsole;
@@ -22,7 +23,7 @@ namespace Roguelike2.Ui.Windows
 
         private bool _debounced;
 
-        public ItemStackInteractWindow(ItemStackEntity itemStack, DungeonMaster dm)
+        public ItemStackInteractWindow(ItemStackEntity itemStack, DungeonMaster dm, TurnManager turnManager)
             : base(DefaultWidth, itemStack.Items.Count + DefaultHeightPadding)
         {
             CloseOnEscKey = false; // needs to be debounced
@@ -68,6 +69,9 @@ namespace Roguelike2.Ui.Windows
                 }
 
                 RefreshStackStatus();
+
+                turnManager.PostProcessPlayerTurn(TimeHelper.Interact);
+
                 Hide();
             };
 
@@ -84,6 +88,9 @@ namespace Roguelike2.Ui.Windows
                 {
                     TakeItem(item);
                     RefreshStackStatus();
+
+                    turnManager.PostProcessPlayerTurn(TimeHelper.Interact);
+
                     Hide();
                 };
                 buttons.Add(button);

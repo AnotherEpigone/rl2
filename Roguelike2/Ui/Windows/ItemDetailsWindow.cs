@@ -1,4 +1,5 @@
 ﻿using Roguelike2.GameMechanics.Items;
+using Roguelike2.GameMechanics.Time;
 using Roguelike2.Ui.Controls;
 using SadConsole;
 using SadConsole.Input;
@@ -15,6 +16,7 @@ namespace Roguelike2.Ui.Windows
             int height,
             Item item,
             DungeonMaster dm,
+            TurnManager turnManager,
             bool equipped)
             : base(width, height)
         {
@@ -85,6 +87,8 @@ namespace Roguelike2.Ui.Windows
                 dm.Player.Inventory.RemoveItem(item, dm);
                 dm.Player.Equipment.Equip(item, categoryId, dm);
 
+                turnManager.PostProcessPlayerTurn(TimeHelper.Equip);
+
                 Hide();
             };
 
@@ -107,6 +111,8 @@ namespace Roguelike2.Ui.Windows
                 var categoryId = ItemAtlas.ItemsById[item.TemplateId].EquipCategoryId;
                 dm.Player.Equipment.Unequip(item, categoryId, dm);
                 dm.Player.Inventory.AddItem(item, dm);
+
+                turnManager.PostProcessPlayerTurn(TimeHelper.Unequip);
 
                 Hide();
             };
