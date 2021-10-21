@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Priority_Queue;
-using Roguelike2.GameMechanics.Time.Nodes;
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +26,8 @@ namespace Roguelike2.GameMechanics.Time
         public McTimeSpan JourneyTime => new McTimeSpan(_journeyTime.Ticks);
 
         public IEnumerable<ITimeMasterNode> Nodes => _queue;
+
+        public int NodeCount => _queue.Count;
 
         public void Enqueue(ITimeMasterNode node) => _queue.Enqueue(node, node.Time);
 

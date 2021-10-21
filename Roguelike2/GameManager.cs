@@ -1,6 +1,8 @@
 ﻿using GoRogue.MapGeneration;
 using Roguelike2.Entities;
 using Roguelike2.GameMechanics;
+using Roguelike2.GameMechanics.Combat;
+using Roguelike2.GameMechanics.Factions;
 using Roguelike2.GameMechanics.Items;
 using Roguelike2.GameMechanics.Time;
 using Roguelike2.Logging;
@@ -22,6 +24,7 @@ namespace Roguelike2
         private readonly ISaveManager _saveManager;
 
         private DungeonMaster _dm;
+        private EntityInteractionManager _entityInteractionManager;
 
         public GameManager(
             IUiManager uiManager,
@@ -49,7 +52,7 @@ namespace Roguelike2
             var rng = new StandardGenerator();
             var tilesetFont = Game.Instance.Fonts[_uiManager.TileFontName];
             var defaultFont = Game.Instance.DefaultFont;
-            _dm = new DungeonMaster(gameState.Player, _logger, gameState.TimeMaster);
+            _dm = new DungeonMaster(gameState.Player, _logger, gameState.TimeMaster, gameState.FactMan, new HitMan(rng));
             var map = gameState.Map;
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
@@ -60,6 +63,7 @@ namespace Roguelike2
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
             var mapManager = new WorldMapManager(playerController, _dm, turnManager, map);
+            _entityInteractionManager = new EntityInteractionManager(_dm, map);
 
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, gameState.Map, mapManager, _dm, turnManager);
             Game.Instance.DestroyDefaultStartingConsole();
@@ -86,6 +90,7 @@ namespace Roguelike2
                 Map = mainConsole.Map,
                 Player = _dm.Player,
                 TimeMaster = _dm.TimeMaster,
+                FactMan = _dm.FactMan,
             };
 
             _saveManager.Write(save);
@@ -144,10 +149,11 @@ namespace Roguelike2
                 map.AddEntity(goblinArcher);
             }
 
-            _dm = new DungeonMaster(player, _logger, new TimeMaster());
+            _dm = new DungeonMaster(player, _logger, new TimeMaster(), CreateFactMan(), new HitMan(rng));
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
             var mapManager = new WorldMapManager(playerController, _dm, turnManager, map);
+            _entityInteractionManager = new EntityInteractionManager(_dm, map);
 
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, _dm, turnManager);
             Game.Instance.DestroyDefaultStartingConsole();
@@ -174,6 +180,14 @@ namespace Roguelike2
             var viewPortTileHeight = (int)(viewportSize.Y / tileSizeYFactor);
 
             return new Point(viewPortTileWidth, viewPortTileHeight);
+        }
+
+        private FactionManager CreateFactMan()
+        {
+            var factionManager = new FactionManager();
+            factionManager.Factions.Add(FactionAtlas.Player.Id, FactionAtlas.Player);
+            factionManager.Factions.Add(FactionAtlas.Goblins.Id, FactionAtlas.Goblins);
+            return factionManager;
         }
     }
 }

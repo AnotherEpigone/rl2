@@ -1,19 +1,21 @@
 ﻿using Newtonsoft.Json;
+using Roguelike2.GameMechanics;
 using Roguelike2.Logging;
 using Roguelike2.Maps;
 using Roguelike2.Serialization.Entities;
 using SadRogue.Primitives;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Roguelike2.Entities
 {
-    public enum UnitMovementResult
+    public enum MoveOutcome
     {
-        Moved,
-        NoMovement,
-        Combat,
-        Blocked,
+        Move,
+        NoMove,
+        Melee,
     }
 
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
@@ -69,6 +71,8 @@ namespace Roguelike2.Entities
         /// </summary>
         public event EventHandler<float> HealthChanged;
 
+        public event EventHandler<EntityBumpedEventArgs> Bumped;
+
         public string FactionId { get; }
         public int UnarmedMelee { get; }
         public int MaxHealth { get; }
@@ -92,22 +96,44 @@ namespace Roguelike2.Entities
             }
         }
 
-        public UnitMovementResult TryMove(Point target)
+        public MoveOutcome TryMove(Direction direction)
         {
-            if (!CurrentMap.WalkabilityView[target])
-            {
-                // detect combat
-                //var targetUnit = CurrentMap.GetEntityAt<Actor>(target);
-                //if (check the faction manager here)
-                //{
-                //    return UnitMovementResult.Combat;
-                //}
+            // TODO
+            //var tiles = SubTiles
+            //    .Select(st => st.Position)
+            //    .Append(Position);
+            var tiles = new List<Point> { Position };
 
-                return UnitMovementResult.Blocked;
+            var bumpedEvents = new List<EntityBumpedEventArgs>();
+            foreach (var tile in tiles)
+            {
+                var target = tile + direction;
+                if (tiles.Contains(target))
+                {
+                    continue;
+                }
+
+                if (!CurrentMap.WalkabilityView[target])
+                {
+                    var bumpedEventArgs = new EntityBumpedEventArgs(this, target);
+                    Bumped?.Invoke(this, bumpedEventArgs);
+
+                    bumpedEvents.Add(bumpedEventArgs);
+                }
             }
 
-            Position = target;
-            return UnitMovementResult.Moved;
+            if (bumpedEvents.Count == 0)
+            {
+                // TODO
+                //BulkMove(SubTiles.Append(this), direction);
+                Position += direction;
+
+                return MoveOutcome.Move;
+            }
+
+            return bumpedEvents.Any(be => be.Outcome == BumpOutcome.Melee)
+                ? MoveOutcome.Melee
+                : MoveOutcome.NoMove;
         }
 
         public void MagicMove(Point target)
@@ -121,13 +147,24 @@ namespace Roguelike2.Entities
             if (Dead)
             {
                 logger.Gameplay($"{Name} was slain.");
-                CurrentMap.RemoveEntity(this);
+                Remove();
             }
         }
 
         public void ApplyHealing(float healing)
         {
             Health = Math.Min(MaxHealth, Health + healing);
+        }
+
+        public void Remove()
+        {
+            // TODO
+            //foreach (var subTile in SubTiles)
+            //{
+            //    subTile.Remove();
+            //}
+
+            CurrentMap.RemoveEntity(this);
         }
 
         private string DebuggerDisplay => $"{nameof(Actor)}: {Name}";

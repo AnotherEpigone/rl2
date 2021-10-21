@@ -9,8 +9,8 @@ namespace Roguelike2Tests.Serialization
         public void FactionMan_Default_RelationshipsPreserved()
         {
             var factMan = new FactionManager();
-            factMan.FactionsById.Add(FactionAtlas.Player.Id, FactionAtlas.Player);
-            factMan.FactionsById.Add(FactionAtlas.Goblins.Id, FactionAtlas.Goblins);
+            factMan.Factions.Add(FactionAtlas.Player.Id, FactionAtlas.Player);
+            factMan.Factions.Add(FactionAtlas.Goblins.Id, FactionAtlas.Goblins);
 
             var sFactMan = SerializationTestHelper.SerializeDeserialize(factMan);
 
@@ -21,8 +21,8 @@ namespace Roguelike2Tests.Serialization
         public void FactionMan_Changed_RelationshipsPreserved()
         {
             var factMan = new FactionManager();
-            factMan.FactionsById.Add(FactionAtlas.Player.Id, FactionAtlas.Player);
-            factMan.FactionsById.Add(FactionAtlas.Goblins.Id, FactionAtlas.Goblins);
+            factMan.Factions.Add(FactionAtlas.Player.Id, FactionAtlas.Player);
+            factMan.Factions.Add(FactionAtlas.Goblins.Id, FactionAtlas.Goblins);
 
             factMan.ChangeAttitude(120, FactionAtlas.Player.Id, FactionAtlas.Goblins.Id);
 

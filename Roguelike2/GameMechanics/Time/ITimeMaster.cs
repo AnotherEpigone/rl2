@@ -8,6 +8,7 @@ namespace Roguelike2.GameMechanics.Time
         McTimeSpan JourneyTime { get; }
 
         IEnumerable<ITimeMasterNode> Nodes { get; }
+        int NodeCount { get; }
 
         event EventHandler<McTimeSpan> TimeUpdated;
 

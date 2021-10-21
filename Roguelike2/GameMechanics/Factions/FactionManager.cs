@@ -10,21 +10,21 @@ namespace Roguelike2.GameMechanics.Factions
 
         public FactionManager()
         {
-            FactionsById = new Dictionary<string, Faction>();
+            Factions = new Dictionary<string, Faction>();
         }
 
         [DataMember]
-        public Dictionary<string, Faction> FactionsById { get; init; }
+        public Dictionary<string, Faction> Factions { get; init; }
 
         public void ChangeAttitude(int mod, string factionIdA, string factionIdB)
         {
-            var factionA = FactionsById[factionIdA];
+            var factionA = Factions[factionIdA];
             if (!factionA.Attitudes.ContainsKey(factionIdB))
             {
                 factionA.Attitudes.Add(factionIdB, DefaultAttitude);
             }
 
-            var factionB = FactionsById[factionIdB];
+            var factionB = Factions[factionIdB];
             if (!factionB.Attitudes.ContainsKey(factionIdA))
             {
                 factionB.Attitudes.Add(factionIdA, DefaultAttitude);
@@ -36,12 +36,12 @@ namespace Roguelike2.GameMechanics.Factions
 
         public bool AreEnemies(string factionIdA, string factionIdB)
         {
-            if (!FactionsById[factionIdA].Attitudes.TryGetValue(factionIdB, out int attitudeA))
+            if (!Factions[factionIdA].Attitudes.TryGetValue(factionIdB, out int attitudeA))
             {
                 attitudeA = DefaultAttitude;
             }
 
-            if (!FactionsById[factionIdB].Attitudes.TryGetValue(factionIdA, out int attitudeB))
+            if (!Factions[factionIdB].Attitudes.TryGetValue(factionIdA, out int attitudeB))
             {
                 attitudeB = DefaultAttitude;
             }

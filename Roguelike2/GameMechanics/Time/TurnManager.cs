@@ -28,6 +28,17 @@ namespace Roguelike2.GameMechanics.Time
             Map = map;
 
             State = State.PlayerTurn;
+
+            if (_dm.TimeMaster.NodeCount == 0)
+            {
+                var secondMarkerNode = new SecondMarkerNode((_dm.TimeMaster.JourneyTime.Seconds + 1) * 100);
+                _dm.TimeMaster.Enqueue(secondMarkerNode);
+            }
+
+            foreach (var actor in Map.Entities.OfType<Actor>())
+            {
+                RegisterEntity(actor);
+            }
         }
 
         public WorldMap Map { get; private set; }
@@ -71,6 +82,32 @@ namespace Roguelike2.GameMechanics.Time
             State = State.PlayerTurn;
         }
 
+        public void RegisterEntity(NovaEntity entity)
+        {
+            // TODO
+            /*if (entity.IsSubTile)
+            {
+                return;
+            }*/
+
+            // inefficient lookup. If it becomes a problem, use a hashset for IDs.
+            if (entity.AllComponents.Contains<IAiComponent>()
+                && !_dm.TimeMaster.Nodes.Any(node =>
+                    node is EntityTurnNode entityNode
+                    && entityNode.EntityId == entity.Id))
+            {
+                // TODO revisit this starting point of 10 ticks for all AIs.
+                // possibly they should go before the player? Possibly the AI should be primed so
+                // we don't have a lag after the player's first move.
+                var time = _dm.TimeMaster.JourneyTime.Ticks + 10;
+                var entityTurnNode = new EntityTurnNode(time, entity.Id);
+                _dm.TimeMaster.Enqueue(entityTurnNode);
+            }
+
+            _registeredEntities.Add(entity.Id, entity);
+            entity.RemovedFromMap += (_, __) => UnregisterEntity(entity);
+        }
+
         private void ProcessAiTurn(Guid entityId, long time)
         {
             if (!_registeredEntities.TryGetValue(entityId, out var entity)
@@ -105,33 +142,6 @@ namespace Roguelike2.GameMechanics.Time
 
             var secondMarkerNode = new SecondMarkerNode(time.Ticks + 100);
             _dm.TimeMaster.Enqueue(secondMarkerNode);
-        }
-
-        // TODO use this
-        private void RegisterEntity(NovaEntity entity)
-        {
-            // TODO
-            /*if (entity.IsSubTile)
-            {
-                return;
-            }*/
-
-            // inefficient lookup. If it becomes a problem, use a hashset for IDs.
-            if (entity.AllComponents.Contains<IAiComponent>()
-                && !_dm.TimeMaster.Nodes.Any(node =>
-                    node is EntityTurnNode entityNode
-                    && entityNode.EntityId == entity.Id))
-            {
-                // TODO revisit this starting point of 10 ticks for all AIs.
-                // possibly they should go before the player? Possibly the AI should be primed so
-                // we don't have a lag after the player's first move.
-                var time = _dm.TimeMaster.JourneyTime.Ticks + 10;
-                var entityTurnNode = new EntityTurnNode(time, entity.Id);
-                _dm.TimeMaster.Enqueue(entityTurnNode);
-            }
-
-            _registeredEntities.Add(entity.Id, entity);
-            entity.RemovedFromMap += (_, __) => UnregisterEntity(entity);
         }
 
         private void UnregisterEntity(NovaEntity entity)

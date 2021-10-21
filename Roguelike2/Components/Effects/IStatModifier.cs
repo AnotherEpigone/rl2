@@ -5,6 +5,7 @@ namespace Roguelike2.Components.Effects
     public enum Stat
     {
         Speed,
+        Deflect,
     }
 
     public interface IStatModifier : IParentAwareComponent

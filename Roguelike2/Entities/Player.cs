@@ -22,7 +22,7 @@ namespace Roguelike2.Entities
             : base(
                   position,
                   WorldGlyphAtlas.PlayerDefault,
-                  "Me",
+                  "You",
                   false,
                   true,
                   (int)MapLayer.ACTORS,
@@ -53,7 +53,7 @@ namespace Roguelike2.Entities
             : base(
                   serialized.Position,
                   WorldGlyphAtlas.PlayerDefault,
-                  "Me",
+                  "You",
                   false,
                   true,
                   (int)MapLayer.ACTORS,
