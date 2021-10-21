@@ -22,6 +22,7 @@ namespace Roguelike2.Serialization.Entities
         [DataMember] string TemplateId;
         [DataMember] Guid UnitId;
         [DataMember] string FactionId;
+        [DataMember] float Health;
 
         public static implicit operator ActorSerialized(Actor actor)
         {
@@ -31,6 +32,7 @@ namespace Roguelike2.Serialization.Entities
                 TemplateId = actor.TemplateId,
                 UnitId = actor.Id,
                 FactionId = actor.FactionId,
+                Health = actor.Health,
             };
         }
 
@@ -46,6 +48,9 @@ namespace Roguelike2.Serialization.Entities
                 (int)MapLayer.ACTORS,
                 serialized.UnitId,
                 serialized.FactionId,
+                template.UnarmedMelee,
+                template.Health,
+                serialized.Health,
                 serialized.TemplateId)
             {
             };

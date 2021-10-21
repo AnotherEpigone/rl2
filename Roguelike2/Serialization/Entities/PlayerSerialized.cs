@@ -21,6 +21,9 @@ namespace Roguelike2.Serialization.Entities
     {
         [DataMember] public Point Position;
         [DataMember] public object[] Components;
+        [DataMember] public float Health;
+        [DataMember] public Guid Id;
+        [DataMember] public string FactionId;
 
         public static implicit operator PlayerSerialized(Player player)
         {
@@ -28,6 +31,9 @@ namespace Roguelike2.Serialization.Entities
             {
                 Position = player.Position,
                 Components = player.AllComponents.Select(pair => pair.Component).ToArray(),
+                Health = player.Health,
+                Id = player.Id,
+                FactionId = player.FactionId,
             };
         }
 

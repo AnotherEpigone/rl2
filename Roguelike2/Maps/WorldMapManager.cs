@@ -20,8 +20,6 @@ namespace Roguelike2.Maps
         private readonly IPlayerController _playerController;
         private readonly DungeonMaster _dm;
         private readonly TurnManager _turnManager;
-        private Actor _selectedUnit;
-        private Point _selectedPoint;
 
         public WorldMapManager(
             IPlayerController playerController,
@@ -47,39 +45,6 @@ namespace Roguelike2.Maps
             _turnManager = turnManager;
 
             _dm.Player.Moved += Player_Moved;
-        }
-
-        public event EventHandler SelectionChanged;
-        public event EventHandler SelectionStatsChanged;
-
-        public Point SelectedPoint
-        {
-            get => _selectedPoint;
-            private set
-            {
-                _selectedPoint = value;
-                SelectionChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public Actor SelectedUnit
-        {
-            get => _selectedUnit;
-            private set
-            {
-                if (_selectedUnit != null)
-                {
-                    _selectedUnit.StatsChanged -= SelectionStatsChanged;
-                }
-
-                _selectedUnit = value;
-                if (_selectedUnit != null)
-                {
-                    _selectedUnit.StatsChanged += SelectionStatsChanged;
-                }
-
-                SelectionChanged?.Invoke(this, EventArgs.Empty);
-            }
         }
 
         public void CenterOnPlayer()

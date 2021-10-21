@@ -11,6 +11,8 @@ namespace Roguelike2.Entities
             int glyph,
             Func<List<object>> createComponents,
             string factionId,
+            int unarmedMelee,
+            int health,
             List<SubTileTemplate> subTiles)
         {
             Id = id;
@@ -18,6 +20,8 @@ namespace Roguelike2.Entities
             Glyph = glyph;
             CreateComponents = createComponents;
             FactionId = factionId;
+            UnarmedMelee = unarmedMelee;
+            Health = health;
             SubTiles = subTiles;
         }
 
@@ -26,6 +30,8 @@ namespace Roguelike2.Entities
         public int Glyph { get; }
         public Func<List<object>> CreateComponents { get; }
         public string FactionId { get; }
+        public int UnarmedMelee { get; }
+        public int Health { get; }
         public List<SubTileTemplate> SubTiles { get; }
     }
 }

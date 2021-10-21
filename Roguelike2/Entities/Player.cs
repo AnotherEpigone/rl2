@@ -15,6 +15,8 @@ namespace Roguelike2.Entities
     [JsonConverter(typeof(PlayerJsonConverter))]
     public class Player : Actor
     {
+        private const int DefaultMaxHealth = 100;
+
         public Player(
             Point position)
             : base(
@@ -26,6 +28,9 @@ namespace Roguelike2.Entities
                   (int)MapLayer.ACTORS,
                   Guid.NewGuid(),
                   FactionAtlas.Player.Id,
+                  2,
+                  DefaultMaxHealth,
+                  DefaultMaxHealth,
                   "Player")
         {
             Moved += Player_Moved;
@@ -52,8 +57,11 @@ namespace Roguelike2.Entities
                   false,
                   true,
                   (int)MapLayer.ACTORS,
-                  Guid.NewGuid(),
-                  FactionAtlas.Player.Id, // TODO Faction ID
+                  serialized.Id,
+                  serialized.FactionId,
+                  2,
+                  DefaultMaxHealth,
+                  serialized.Health,
                   "Player")
         {
             foreach (var component in serialized.Components)

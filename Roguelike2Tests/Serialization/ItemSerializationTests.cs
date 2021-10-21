@@ -4,7 +4,7 @@ using Roguelike2.GameMechanics.Items;
 
 namespace Roguelike2Tests.Serialization
 {
-    public class Tests
+    public class ItemSerializationTests
     {
         [Test]
         public void ItemWithComponents_SerializeDeserialize()

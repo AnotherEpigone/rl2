@@ -26,7 +26,7 @@ namespace Roguelike2.Entities
 
         public static Dictionary<string, ActorTemplate> ById => _byId.Value;
 
-        public static ActorTemplate Goblin => new ActorTemplate(
+        public static ActorTemplate Goblin => new(
             id: "ACTOR_GOBLIN",
             name: "Goblin",
             glyph: WorldGlyphAtlas.Goblin,
@@ -40,9 +40,11 @@ namespace Roguelike2.Entities
                     new RandomWalkAiComponent()),*/
             },
             FactionAtlas.Goblins.Id,
+            unarmedMelee: 3,
+            health: 5,
             new List<SubTileTemplate>());
 
-        public static ActorTemplate GoblinArcher => new ActorTemplate(
+        public static ActorTemplate GoblinArcher => new(
             id: "ACTOR_GOBLIN_ARCHER",
             name: "Goblin archer",
             glyph: WorldGlyphAtlas.GoblinArcher,
@@ -57,9 +59,11 @@ namespace Roguelike2.Entities
                     new RandomWalkAiComponent()),*/
             },
             FactionAtlas.Goblins.Id,
+            unarmedMelee: 2,
+            health: 4,
             new List<SubTileTemplate>());
 
-        public static ActorTemplate Warg => new ActorTemplate(
+        public static ActorTemplate Warg => new(
             id: "ACTOR_WARG",
             name: "Warg",
             glyph: WorldGlyphAtlas.Warg,
@@ -73,9 +77,11 @@ namespace Roguelike2.Entities
                     new RandomWalkAiComponent()),*/
             },
             FactionAtlas.Goblins.Id,
+            unarmedMelee: 8,
+            health: 8,
             new List<SubTileTemplate>());
 
-        public static ActorTemplate Troll => new ActorTemplate(
+        public static ActorTemplate Troll => new(
             id: "ACTOR_TROLL",
             name: "Troll",
             glyph: WorldGlyphAtlas.Troll_TopLeft,
@@ -89,6 +95,8 @@ namespace Roguelike2.Entities
                     new RandomWalkAiComponent()),*/
             },
             FactionAtlas.Goblins.Id,
+            unarmedMelee: 20,
+            health: 50,
             new List<SubTileTemplate>
             {
                 new SubTileTemplate(WorldGlyphAtlas.Troll_TopRight, new Point(1, 0)),
