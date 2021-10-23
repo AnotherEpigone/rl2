@@ -1,4 +1,5 @@
 ﻿using GoRogue.Components.ParentAware;
+using Roguelike2.Components.Triggers;
 using Roguelike2.Entities;
 using Roguelike2.GameMechanics;
 using Roguelike2.GameMechanics.Items;
@@ -55,11 +56,10 @@ namespace Roguelike2.Components
 
             EquipmentChanged?.Invoke(this, EventArgs.Empty);
 
-            // TODO
-            /*foreach (var triggeredComponent in item.GetGoRogueComponents<IEquipTriggeredComponent>())
+            foreach (var triggeredComponent in item.GoRogueComponents.GetAll<IEquipTriggeredComponent>())
             {
-                triggeredComponent.OnEquip((McEntity)Parent, dungeonMaster, logManager);
-            }*/
+                triggeredComponent.OnEquip((Actor)Parent, dungeonMaster);
+            }
 
             return true;
         }
@@ -77,13 +77,10 @@ namespace Roguelike2.Components
                 EquipmentChanged?.Invoke(this, EventArgs.Empty);
             }
 
-            
-
-            // TODO
-            /*foreach (var triggeredComponent in item.GetGoRogueComponents<IEquipTriggeredComponent>())
+            foreach (var triggeredComponent in item.GoRogueComponents.GetAll<IEquipTriggeredComponent>())
             {
-                triggeredComponent.OnUnequip((McEntity)Parent, dungeonMaster, logManager);
-            }*/
+                triggeredComponent.OnUnequip((Actor)Parent, dungeonMaster);
+            }
 
             return success;
         }

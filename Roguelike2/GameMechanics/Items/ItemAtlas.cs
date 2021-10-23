@@ -1,4 +1,5 @@
 ﻿using GoRogue.Components.ParentAware;
+using Roguelike2.Components.ItemComponents;
 using Roguelike2.Fonts;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +29,10 @@ namespace Roguelike2.GameMechanics.Items
             equipCategoryId: EquipCategoryId.Weapon,
             createComponents: () => new List<IParentAwareComponent>
             {
-                // TODO
-                /*new ApplyWhenEquippedComponent(new List<ISerializableComponent>
+                new ApplyWhenEquippedComponent(new List<IParentAwareComponent>
                 {
                     new EquippedMeleeWeaponComponent("1d6+2", 0),
-                }),*/
+                }),
             });
         public static ItemTemplate EtheriumShard => new ItemTemplate(
             id: "ITEM_ETHERIUM_SHARD",

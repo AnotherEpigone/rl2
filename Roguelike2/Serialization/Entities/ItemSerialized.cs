@@ -35,10 +35,9 @@ namespace Roguelike2.Serialization.Entities
 
         public static implicit operator Item(ItemSerialized serialized)
         {
-            var item = new Item(
-                serialized.TemplateId,
-                serialized.Name,
-                serialized.Glyph);
+            var template = ItemAtlas.ItemsById[serialized.TemplateId];
+            var item = new Item(template);
+            item.GoRogueComponents.Clear();
             foreach (var component in serialized.Components)
             {
                 item.GoRogueComponents.Add(component);

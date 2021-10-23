@@ -1,5 +1,6 @@
 ﻿using GoRogue.Components.ParentAware;
 using GoRogue.SpatialMaps;
+using Roguelike2.Components.Triggers;
 using Roguelike2.Entities;
 using Roguelike2.GameMechanics;
 using Roguelike2.GameMechanics.Items;
@@ -46,11 +47,10 @@ namespace Roguelike2.Components
         {
             Items.Add(item);
 
-            // todo
-            /*foreach (var triggeredComponent in item.GetGoRogueComponents<IInventoryTriggeredComponent>())
+            foreach (var triggeredComponent in item.GoRogueComponents.GetAll<IInventoryTriggeredComponent>())
             {
-                triggeredComponent.OnAddedToInventory((McEntity)Parent, dungeonMaster, logManager);
-            }*/
+                triggeredComponent.OnAddedToInventory((Actor)Parent, dungeonMaster);
+            }
 
             ContentsChanged?.Invoke(this, EventArgs.Empty);
         }
@@ -58,10 +58,11 @@ namespace Roguelike2.Components
         public void RemoveItem(Item item, DungeonMaster dungeonMaster)
         {
             Items.Remove(item);
-            /*foreach (var triggeredComponent in item.GetGoRogueComponents<IInventoryTriggeredComponent>())
+
+            foreach (var triggeredComponent in item.GoRogueComponents.GetAll<IInventoryTriggeredComponent>())
             {
-                triggeredComponent.OnRemovedFromInventory((McEntity)Parent, dungeonMaster, logManager);
-            }*/
+                triggeredComponent.OnRemovedFromInventory((Actor)Parent, dungeonMaster);
+            }
 
             ContentsChanged?.Invoke(this, EventArgs.Empty);
         }

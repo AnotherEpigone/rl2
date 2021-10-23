@@ -10,28 +10,20 @@ namespace Roguelike2.GameMechanics.Items
     [JsonConverter(typeof(ItemJsonConverter))]
     public class Item : IObjectWithComponents
     {
-        private readonly IComponentCollection _components;
-
         public Item(ItemTemplate template)
-         : this(
-               template.Id,
-               template.Name,
-               template.Glyph)
-        { }
-
-        public Item(
-            string templateId,
-            string name,
-            int glyph)
         {
-            TemplateId = templateId;
-            Name = name;
-            Glyph = glyph;
-
-            _components = new ComponentCollection()
+            TemplateId = template.Id;
+            Name = template.Name;
+            Glyph = template.Glyph;
+            GoRogueComponents = new ComponentCollection()
             {
                 ParentForAddedComponents = this,
             };
+
+            foreach (var component in template.CreateComponents())
+            {
+                GoRogueComponents.Add(component);
+            }
         }
 
         public string TemplateId { get; }
@@ -40,8 +32,8 @@ namespace Roguelike2.GameMechanics.Items
 
         public int Glyph { get; }
 
-        public IComponentCollection GoRogueComponents => _components;
+        public IComponentCollection GoRogueComponents { get; }
 
-        private string DebuggerDisplay => nameof(Item);
+        private string DebuggerDisplay => $"{nameof(Item)}: {Name}";
     }
 }

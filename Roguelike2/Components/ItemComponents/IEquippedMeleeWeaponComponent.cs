@@ -1,7 +1,7 @@
 ﻿using GoRogue.Components.ParentAware;
 using GoRogue.DiceNotation;
 
-namespace Roguelike2.Components.Effects
+namespace Roguelike2.Components.ItemComponents
 {
     public interface IEquippedMeleeWeaponComponent : IParentAwareComponent
     {

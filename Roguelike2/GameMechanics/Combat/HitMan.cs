@@ -1,4 +1,5 @@
 ﻿using Roguelike2.Components.Effects;
+using Roguelike2.Components.ItemComponents;
 using Roguelike2.Entities;
 using System;
 using System.Linq;
