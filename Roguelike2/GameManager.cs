@@ -8,6 +8,7 @@ using Roguelike2.GameMechanics.Time;
 using Roguelike2.Logging;
 using Roguelike2.Maps;
 using Roguelike2.Serialization;
+using Roguelike2.Serialization.Settings;
 using Roguelike2.Ui;
 using Roguelike2.Ui.Consoles;
 using SadConsole;
@@ -22,18 +23,20 @@ namespace Roguelike2
         private readonly IUiManager _uiManager;
         private readonly ILogger _logger;
         private readonly ISaveManager _saveManager;
-
+        private readonly IAppSettings _appSettings;
         private DungeonMaster _dm;
         private EntityInteractionManager _entityInteractionManager;
 
         public GameManager(
             IUiManager uiManager,
             ILogger logger,
-            ISaveManager saveManager)
+            ISaveManager saveManager,
+            IAppSettings appSettings)
         {
             _uiManager = uiManager;
             _logger = logger;
             _saveManager = saveManager;
+            _appSettings = appSettings;
         }
 
         public bool CanLoad()
@@ -62,7 +65,7 @@ namespace Roguelike2
 
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
-            var mapManager = new WorldMapManager(playerController, _dm, turnManager, map);
+            var mapManager = new WorldMapManager(playerController, _dm, turnManager, map, _appSettings);
             _entityInteractionManager = new EntityInteractionManager(_dm, map);
 
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, gameState.Map, mapManager, _dm, turnManager);
@@ -152,7 +155,7 @@ namespace Roguelike2
             _dm = new DungeonMaster(player, _logger, new TimeMaster(), CreateFactMan(), new HitMan(rng));
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
-            var mapManager = new WorldMapManager(playerController, _dm, turnManager, map);
+            var mapManager = new WorldMapManager(playerController, _dm, turnManager, map, _appSettings);
             _entityInteractionManager = new EntityInteractionManager(_dm, map);
 
             Game.Instance.Screen = _uiManager.CreateMapScreen(this, map, mapManager, _dm, turnManager);

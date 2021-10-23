@@ -18,7 +18,13 @@ namespace Roguelike2.Maps
                 throw new ArgumentException($"Unsupported terrain type {terrain.GetType().FullName}");
             }
 
-            rlTerrain.Explored = true;
+            if (CurrentState == State.Enabled
+                || Parent.PlayerFOV.BooleanResultView[terrain.Position])
+            {
+                // If the terrain is only revealed because we toggled FOV, don't explore it!
+                rlTerrain.Explored = true;
+            }
+
             rlTerrain.Appearance.IsVisible = true;
             rlTerrain.Appearance.Foreground = Color.White;
         }

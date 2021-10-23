@@ -45,6 +45,8 @@ namespace Roguelike2.GameMechanics.Time
 
         public State State { get; private set; }
 
+        public bool SuppressAi { get; set; }
+
         public void PostProcessPlayerTurn(int playerTurnTicks)
         {
             var playerTurnNode = new WizardTurnNode(
@@ -116,9 +118,18 @@ namespace Roguelike2.GameMechanics.Time
                 return;
             }
 
-            var ai = entity.AllComponents.GetFirst<IAiComponent>();
-            var (success, ticks) = ai?.Run(Map, _dm) ?? (false, -1);
-            if (!success || ticks < 1)
+            int ticks;
+            if (SuppressAi)
+            {
+                ticks = TimeHelper.Wait;
+            }
+            else
+            {
+                var ai = entity.AllComponents.GetFirst<IAiComponent>();
+                ticks = ai?.Run(Map, _dm) ?? TimeHelper.Wait;
+            }
+
+            if (ticks < 1)
             {
                 return;
             }

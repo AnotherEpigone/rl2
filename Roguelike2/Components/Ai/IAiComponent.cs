@@ -5,6 +5,6 @@ namespace Roguelike2.Components.Ai
 {
     public interface IAiComponent : IParentAwareComponent
     {
-        (bool success, int ticks) Run(WorldMap map, IDungeonMaster dungeonMaster);
+        int Run(WorldMap map, IDungeonMaster dungeonMaster);
     }
 }

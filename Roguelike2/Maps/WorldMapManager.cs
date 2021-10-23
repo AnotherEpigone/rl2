@@ -2,6 +2,7 @@
 using Roguelike2.Entities;
 using Roguelike2.GameMechanics;
 using Roguelike2.GameMechanics.Time;
+using Roguelike2.Serialization.Settings;
 using Roguelike2.Ui.Windows;
 using SadConsole.Input;
 using SadRogue.Primitives;
@@ -16,6 +17,7 @@ namespace Roguelike2.Maps
     public class WorldMapManager
     {
         private readonly WorldMap _map;
+        private readonly IAppSettings _appSettings;
         private readonly AStar _aStar;
         private readonly IPlayerController _playerController;
         private readonly DungeonMaster _dm;
@@ -25,9 +27,11 @@ namespace Roguelike2.Maps
             IPlayerController playerController,
             DungeonMaster dm,
             TurnManager turnManager,
-            WorldMap map)
+            WorldMap map,
+            IAppSettings appSettings)
         {
             _map = map;
+            _appSettings = appSettings;
             _map.RightMouseClick += Map_RightMouseButtonDown;
             _map.LeftMouseClick += Map_LeftMouseClick;
 
@@ -63,6 +67,20 @@ namespace Roguelike2.Maps
             if (keyboard.IsKeyPressed(Keys.G))
             {
                 InteractSelf();
+                return true;
+            }
+
+            if (keyboard.IsKeyPressed(Keys.F) && _appSettings.Debug)
+            {
+                ToggleFov();
+                return true;
+            }
+
+            if (keyboard.IsKeyPressed(Keys.P) && _appSettings.Debug)
+            {
+                _turnManager.SuppressAi = !_turnManager.SuppressAi;
+                _dm.Logger.Debug($"Suppress AI toggled. New value: {_turnManager.SuppressAi}");
+                _dm.Logger.Gameplay($"DEBUG: Suppress AI: {_turnManager.SuppressAi}");
                 return true;
             }
 
@@ -145,6 +163,22 @@ namespace Roguelike2.Maps
             itemStackWindow.Position = _map.Position / itemStackWindow.FontSize;
             itemStackWindow.Show(true);
             return true;
+        }
+
+        private void ToggleFov()
+        {
+            var fovHandler = _map.AllComponents.GetFirst<PlayerFieldOfViewHandler>();
+            if (fovHandler.IsEnabled)
+            {
+                fovHandler.CurrentState = SadRogue.Integration.FieldOfView.FieldOfViewHandlerBase.State.DisabledResetVisibility;
+            }
+            else
+            {
+                fovHandler.CurrentState = SadRogue.Integration.FieldOfView.FieldOfViewHandlerBase.State.Enabled; ;
+            }
+
+            _dm.Logger.Debug($"FOV toggled. New value: {fovHandler.IsEnabled}");
+            _dm.Logger.Gameplay($"DEBUG: FOV: {fovHandler.IsEnabled}");
         }
 
         private void Map_RightMouseButtonDown(object sender, MouseScreenObjectState e)
