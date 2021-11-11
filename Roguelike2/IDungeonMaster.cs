@@ -3,6 +3,7 @@ using Roguelike2.GameMechanics.Combat;
 using Roguelike2.GameMechanics.Factions;
 using Roguelike2.GameMechanics.Time;
 using Roguelike2.Logging;
+using Troschuetz.Random;
 
 namespace Roguelike2
 {
@@ -13,5 +14,6 @@ namespace Roguelike2
         ITimeMaster TimeMaster { get; }
         FactionManager FactMan { get; }
         HitMan HitMan { get; }
+        IGenerator Rng { get; }
     }
 }

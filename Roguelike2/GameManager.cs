@@ -55,7 +55,7 @@ namespace Roguelike2
             var rng = new StandardGenerator();
             var tilesetFont = Game.Instance.Fonts[_uiManager.TileFontName];
             var defaultFont = Game.Instance.DefaultFont;
-            _dm = new DungeonMaster(gameState.Player, _logger, gameState.TimeMaster, gameState.FactMan, new HitMan(rng));
+            _dm = new DungeonMaster(gameState.Player, _logger, gameState.TimeMaster, gameState.FactMan, new HitMan(rng), rng);
             var map = gameState.Map;
             map.DefaultRenderer.Surface.View = map.DefaultRenderer.Surface.View.ChangeSize(
                 GetViewportSizeInTiles(tilesetFont, defaultFont) - map.DefaultRenderer.Surface.View.Size);
@@ -152,7 +152,7 @@ namespace Roguelike2
                 map.AddEntity(goblinArcher);
             }
 
-            _dm = new DungeonMaster(player, _logger, new TimeMaster(), CreateFactMan(), new HitMan(rng));
+            _dm = new DungeonMaster(player, _logger, new TimeMaster(), CreateFactMan(), new HitMan(rng), rng);
             var turnManager = new TurnManager(_dm, map);
             var playerController = new PlayerController(_dm, turnManager);
             var mapManager = new WorldMapManager(playerController, _dm, turnManager, map, _appSettings);

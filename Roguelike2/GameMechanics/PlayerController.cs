@@ -1,4 +1,5 @@
-﻿using Roguelike2.GameMechanics.Time;
+﻿using Roguelike2.Entities;
+using Roguelike2.GameMechanics.Time;
 using SadConsole.Input;
 using SadRogue.Primitives;
 
@@ -68,11 +69,17 @@ namespace Roguelike2.GameMechanics
             return false;
         }
 
-        private void HandlePlayerMovement(DungeonMaster game, Direction dir)
+        private void HandlePlayerMovement(DungeonMaster dm, Direction dir)
         {
-            // TODO handle melee time and blocked movement
-            game.Player.TryMove(dir);
-            _turnManager.PostProcessPlayerTurn(TimeHelper.GetWalkTime(_dm.Player));
+            var outcome = dm.Player.TryMove(dir);
+            var time = outcome switch
+            {
+                MoveOutcome.Move => TimeHelper.GetWalkTime(dm.Player),
+                MoveOutcome.NoMove => TimeHelper.Wait,
+                MoveOutcome.Melee => TimeHelper.GetAttackTime(dm.Player),
+                _ => throw new System.NotSupportedException($"Unsupported move outcome {outcome}."),
+            };
+            _turnManager.PostProcessPlayerTurn(time);
         }
     }
 }

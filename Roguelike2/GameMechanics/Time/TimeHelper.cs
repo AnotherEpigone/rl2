@@ -1,5 +1,6 @@
 ﻿using Roguelike2.Components.Effects;
 using Roguelike2.Entities;
+using System;
 using System.Linq;
 
 namespace Roguelike2.GameMechanics.Time
@@ -15,9 +16,10 @@ namespace Roguelike2.GameMechanics.Time
 
         public static float GetWalkSpeed(NovaEntity entity)
         {
+            // TODO walk speed
             //var speed = entity.GetGoRogueComponent<IActorStatComponent>()?.WalkSpeed ?? 1;
             var speed = 1;
-            var modifiers = entity.AllComponents.GetAll<IStatModifier>().Where(c => c.Stat == Stat.Speed);
+            var modifiers = entity.AllComponents.GetAll<IStatModifier>().Where(c => c.Stat == Stat.WalkSpeed);
         
             var negativeModifier = 1 + modifiers
                 .Select(m => m.Modifier)
@@ -39,30 +41,33 @@ namespace Roguelike2.GameMechanics.Time
             return (int)(Walk / effectiveSpeed);
         }
 
-        //public static float GetAttackSpeed(McEntity entity)
-        //{
-        //    var speed = entity.GetGoRogueComponent<IActorStatComponent>()?.AttackSpeed ?? 1;
-        //    var modifiers = entity.GetGoRogueComponents<ISpeedModifier>();
-        //
-        //    var negativeModifier = 1 + modifiers
-        //        .Select(m => m.Modifier)
-        //        .Where(m => m < 0)
-        //        .Sum(m => m);
-        //
-        //    var positiveModifier = 1 + modifiers
-        //        .Select(m => m.Modifier)
-        //        .Where(m => m > 0)
-        //        .Sum(m => m);
-        //
-        //    return speed * positiveModifier * negativeModifier;
-        //}
-        //
-        //public static int GetAttackTime(McEntity entity)
-        //{
-        //    var effectiveSpeed = GetAttackSpeed(entity);
-        //
-        //    return (int)(Attack / effectiveSpeed);
-        //}
+        public static float GetAttackSpeed(Actor entity)
+        {
+            // TODO
+            //var speed = entity.GetGoRogueComponent<IActorStatComponent>()?.AttackSpeed ?? 1;
+            var speed = 1;
+            var modifiers = entity.AllComponents.GetAll<IStatModifier>().Where(c => c.Stat == Stat.AttackSpeed);
+        
+            var negativeModifier = 1 + modifiers
+                .Select(m => m.Modifier)
+                .Where(m => m < 0)
+                .Sum(m => m);
+            negativeModifier = Math.Max(0.1f, negativeModifier);
+        
+            var positiveModifier = 1 + modifiers
+                .Select(m => m.Modifier)
+                .Where(m => m > 0)
+                .Sum(m => m);
+        
+            return speed * positiveModifier * negativeModifier;
+        }
+        
+        public static int GetAttackTime(Actor entity)
+        {
+            var effectiveSpeed = GetAttackSpeed(entity);
+        
+            return (int)(Attack / effectiveSpeed);
+        }
 
         //public static float GetCastSpeed(McEntity entity)
         //{

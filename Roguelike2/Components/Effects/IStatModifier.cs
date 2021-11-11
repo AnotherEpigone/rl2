@@ -4,7 +4,9 @@ namespace Roguelike2.Components.Effects
 {
     public enum Stat
     {
-        Speed,
+        WalkSpeed,
+        AttackSpeed,
+        CastSpeed,
         Deflect,
     }
 

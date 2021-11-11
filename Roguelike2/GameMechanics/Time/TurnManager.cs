@@ -118,21 +118,14 @@ namespace Roguelike2.GameMechanics.Time
                 return;
             }
 
-            int ticks;
-            if (SuppressAi)
-            {
-                ticks = TimeHelper.Wait;
-            }
-            else
-            {
-                var ai = entity.AllComponents.GetFirst<IAiComponent>();
-                ticks = ai?.Run(Map, _dm) ?? TimeHelper.Wait;
-            }
+            var ai = SuppressAi
+                ? null
+                : entity.AllComponents.GetFirst<IAiComponent>();
+            var aiResult = ai?.Run(Map, _dm) ?? (false, -1);
 
-            if (ticks < 1)
-            {
-                return;
-            }
+            int ticks = !aiResult.success || aiResult.ticks < 1
+                ? TimeHelper.Wait
+                : aiResult.ticks;
 
             var nextTurnNode = new EntityTurnNode(time + ticks, entity.Id);
             _dm.TimeMaster.Enqueue(nextTurnNode);
