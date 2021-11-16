@@ -1,4 +1,5 @@
-﻿using Roguelike2.Fonts;
+﻿using Roguelike2.Components.Ai;
+using Roguelike2.Fonts;
 using Roguelike2.GameMechanics.Factions;
 using SadRogue.Primitives;
 using System;
@@ -34,10 +35,10 @@ namespace Roguelike2.Entities
             {
                 /*new HealthComponent(10),
                 new ActorStatComponent(1.2f, 1f, 1f),
-                new MeleeAttackerComponent(5),
+                new MeleeAttackerComponent(5),*/
                 new LinearCompositeAiComponent(
-                    new WalkAtPlayerAiComponent(6),
-                    new RandomWalkAiComponent()),*/
+                    new WalkTowardEnemyAiComponent(6),
+                    new RandomWalkAiComponent()),
             },
             FactionAtlas.Goblins.Id,
             unarmedMelee: 3,
@@ -52,11 +53,11 @@ namespace Roguelike2.Entities
             {
                 /*new HealthComponent(10),
                 new ActorStatComponent(1f, 0.7f, 1f),
-                new RangedAttackerComponent(5, 4),
+                new RangedAttackerComponent(5, 4),*/
                 new LinearCompositeAiComponent(
                     new RangedAttackAiComponent(),
-                    new WalkAtPlayerAiComponent(6),
-                    new RandomWalkAiComponent()),*/
+                    new WalkTowardEnemyAiComponent(6),
+                    new RandomWalkAiComponent()),
             },
             FactionAtlas.Goblins.Id,
             unarmedMelee: 2,
@@ -71,10 +72,10 @@ namespace Roguelike2.Entities
             {
                 /*new HealthComponent(10),
                 new ActorStatComponent(2f, 1.5f, 1f),
-                new MeleeAttackerComponent(5),
+                new MeleeAttackerComponent(5),*/
                 new LinearCompositeAiComponent(
-                    new WalkAtPlayerAiComponent(6),
-                    new RandomWalkAiComponent()),*/
+                    new WalkTowardEnemyAiComponent(6),
+                    new RandomWalkAiComponent()),
             },
             FactionAtlas.Goblins.Id,
             unarmedMelee: 8,
@@ -89,10 +90,10 @@ namespace Roguelike2.Entities
             {
                 /*new HealthComponent(50),
                 new ActorStatComponent(0.8f, 0.6f, 1f),
-                new MeleeAttackerComponent(25),
+                new MeleeAttackerComponent(25),*/
                 new LinearCompositeAiComponent(
-                    new WalkAtPlayerAiComponent(6),
-                    new RandomWalkAiComponent()),*/
+                    new WalkTowardEnemyAiComponent(6),
+                    new RandomWalkAiComponent()),
             },
             FactionAtlas.Goblins.Id,
             unarmedMelee: 20,

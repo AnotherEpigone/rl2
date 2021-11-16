@@ -18,12 +18,12 @@ namespace Roguelike2.GameMechanics.Time
     public class TurnManager
     {
         private readonly IDungeonMaster _dm;
-        private readonly Dictionary<Guid, NovaEntity> _registeredEntities;
+        private readonly Dictionary<Guid, Actor> _registeredEntities;
 
         public TurnManager(IDungeonMaster dm, WorldMap map)
         {
             _dm = dm;
-            _registeredEntities = new Dictionary<Guid, NovaEntity>();
+            _registeredEntities = new Dictionary<Guid, Actor>();
 
             Map = map;
 
@@ -35,7 +35,7 @@ namespace Roguelike2.GameMechanics.Time
                 _dm.TimeMaster.Enqueue(secondMarkerNode);
             }
 
-            foreach (var actor in Map.Entities.OfType<Actor>())
+            foreach (var actor in Map.Entities.Items.OfType<Actor>())
             {
                 RegisterEntity(actor);
             }
@@ -84,7 +84,7 @@ namespace Roguelike2.GameMechanics.Time
             State = State.PlayerTurn;
         }
 
-        public void RegisterEntity(NovaEntity entity)
+        public void RegisterEntity(Actor entity)
         {
             // TODO
             /*if (entity.IsSubTile)

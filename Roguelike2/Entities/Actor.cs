@@ -40,6 +40,10 @@ namespace Roguelike2.Entities
                   template.Health,
                   template.Id)
         {
+            foreach (var component in template.CreateComponents())
+            {
+                AllComponents.Add(component);
+            }
         }
 
         public Actor(
