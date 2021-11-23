@@ -12,7 +12,8 @@ namespace Roguelike2.GameMechanics
             Dm = dm;
             Map = map;
 
-            foreach (var actor in map.Entities.OfType<Actor>().Append(Dm.Player))
+            // TODO support registering new entities!
+            foreach (var actor in map.Entities.Items.OfType<Actor>().Append(Dm.Player))
             {
                 actor.Bumped += Actor_Bumped;
                 actor.RemovedFromMap += Actor_RemovedFromMap;
