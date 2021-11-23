@@ -1,6 +1,7 @@
 ﻿using Roguelike2.GameMechanics.Time;
 using Roguelike2.Maps;
 using Roguelike2.Ui.Consoles.MainConsoleOverlays;
+using Roguelike2.Ui.Windows;
 using SadConsole;
 using SadConsole.Input;
 using SadRogue.Primitives;
@@ -95,6 +96,7 @@ namespace Roguelike2.Ui.Consoles
             };
 
             dm.Player.Moved += Player_Moved;
+            dm.Player.Died += Player_Died;
 
             Children.Add(Map);
             Children.Add(_mapOverlay);
@@ -149,6 +151,11 @@ namespace Roguelike2.Ui.Consoles
         private void Player_Moved(object sender, GoRogue.GameFramework.GameObjectPropertyChanged<Point> e)
         {
             _mapOverlay.Clear();
+        }
+
+        private void Player_Died(object sender, EventArgs e)
+        {
+            new DeathWindow(_uiManager, _gameManager).Show("You died.");
         }
     }
 }

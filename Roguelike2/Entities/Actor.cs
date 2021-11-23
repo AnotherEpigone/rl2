@@ -77,6 +77,8 @@ namespace Roguelike2.Entities
 
         public event EventHandler<EntityBumpedEventArgs> Bumped;
 
+        public event EventHandler Died;
+
         public string FactionId { get; }
         public int UnarmedMelee { get; }
         public int MaxHealth { get; }
@@ -98,6 +100,12 @@ namespace Roguelike2.Entities
                 _health = value;
                 HealthChanged?.Invoke(this, prevHealth);
             }
+        }
+
+        public void Kill()
+        {
+            CurrentMap?.RemoveEntity(this);
+            Died?.Invoke(this, EventArgs.Empty);
         }
 
         public MoveOutcome TryMove(Direction direction)
@@ -151,7 +159,7 @@ namespace Roguelike2.Entities
             if (Dead)
             {
                 logger.Gameplay($"{Name} was slain.");
-                Remove();
+                Kill();
             }
         }
 
